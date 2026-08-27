@@ -5,6 +5,8 @@ export type Vehicle = {
   generation: string;
   year: number;
   engine: string;
+  fuel: string;
+  transmission: string;
 };
 
 export const vehicles: Vehicle[] = [
@@ -15,5 +17,27 @@ export const vehicles: Vehicle[] = [
     generation: "A4 / Classic",
     year: 2009,
     engine: "2.0",
+    fuel: "Gasolina",
+transmission: "Manual",
+  },
+  {
+    id: "vw-golf-a4-2008-2.0",
+    brand: "Volkswagen",
+    model: "Golf",
+    generation: "A4",
+    year: 2008,
+    engine: "2.0",
+    fuel: "Gasolina",
+transmission: "Manual",
+  },
+  {
+    id: "nissan-sentra-b16-2011-2.0",
+    brand: "Nissan",
+    model: "Sentra",
+    generation: "B16",
+    year: 2011,
+    engine: "2.0",
+    fuel: "Gasolina",
+transmission: "Manual",
   },
 ];

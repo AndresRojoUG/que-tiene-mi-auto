@@ -1,4 +1,9 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+
 export default function Home() {
+  const router = useRouter();
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 py-16 text-center">
@@ -16,10 +21,14 @@ export default function Home() {
         </p>
 
         <button
-          className="mt-10 rounded-xl bg-white px-8 py-4 font-semibold text-slate-950 transition hover:bg-slate-200"
-        >
-          Comenzar diagnóstico
-        </button>
+  type="button"
+  onClick={() =>
+    router.push("/seleccionar-vehiculo")
+  }
+  className="mt-10 rounded-xl bg-white px-8 py-4 font-semibold text-slate-950 transition hover:bg-slate-200"
+>
+  Comenzar diagnóstico
+</button>
 
         <p className="mt-8 text-sm text-slate-500">
           Información orientativa. No sustituye un diagnóstico profesional.

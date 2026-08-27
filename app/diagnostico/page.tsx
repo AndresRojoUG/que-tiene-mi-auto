@@ -1,89 +1,150 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { vehicles } from "@/data/vehicles";
+import { diagnosticProblems } from "@/data/diagnostics/problems";
 
-export default function DiagnosticoPage() {
-   
+function DiagnosticoContent() {
   const router = useRouter();
-  const [vehicleId, setVehicleId] = useState("");
+  const searchParams = useSearchParams();
+
+  const vehicleId = searchParams.get("vehicle");
 
   const selectedVehicle = vehicles.find(
     (vehicle) => vehicle.id === vehicleId
   );
 
+  if (!selectedVehicle) {
+    return (
+      <main className="min-h-screen bg-slate-950 text-white">
+        <section className="mx-auto max-w-3xl px-6 py-16">
+          <p className="text-sm text-slate-400">
+            Diagnóstico
+          </p>
+
+          <h1 className="mt-3 text-4xl font-bold">
+            Selecciona un vehículo
+          </h1>
+
+          <p className="mt-4 text-slate-400">
+            Necesitamos saber qué vehículo quieres diagnosticar.
+          </p>
+
+          <button
+            type="button"
+            onClick={() => router.push("/seleccionar-vehiculo")}
+            className="mt-8 w-full rounded-xl bg-white px-6 py-4 font-semibold text-slate-950"
+          >
+            Seleccionar vehículo
+          </button>
+        </section>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-      <section className="mx-auto max-w-3xl px-6 py-16">
-        <p className="text-sm font-medium text-slate-400">
-          Paso 1
-        </p>
+      <section className="mx-auto max-w-3xl px-6 py-10 sm:py-16">
 
-        <h1 className="mt-3 text-4xl font-bold">
-          Selecciona tu vehículo
-        </h1>
+        <button
+          type="button"
+          onClick={() => router.back()}
+          className="text-sm text-slate-400 transition hover:text-white"
+        >
+          ← Volver
+        </button>
 
-        <p className="mt-4 text-slate-400">
-          Selecciona el vehículo que quieres diagnosticar.
-        </p>
+        <div className="mt-8">
+          <p className="text-sm font-medium text-slate-400">
+            Diagnóstico
+          </p>
 
-        <div className="mt-10">
-          <label
-            htmlFor="vehicle"
-            className="mb-3 block text-sm font-medium"
-          >
-            Vehículo
-          </label>
+          <h1 className="mt-3 text-4xl font-bold">
+            ¿Qué problema tiene tu auto?
+          </h1>
 
-          <select
-            id="vehicle"
-            value={vehicleId}
-            onChange={(event) => setVehicleId(event.target.value)}
-            className="w-full rounded-xl border border-slate-700 bg-slate-900 px-4 py-4 text-white outline-none focus:border-white"
-          >
-            <option value="">
-              Selecciona un vehículo
-            </option>
-
-            {vehicles.map((vehicle) => (
-              <option key={vehicle.id} value={vehicle.id}>
-                {vehicle.brand} {vehicle.model}{" "}
-                {vehicle.generation} — {vehicle.year} —{" "}
-                {vehicle.engine} L
-              </option>
-            ))}
-          </select>
+          <p className="mt-4 text-slate-400">
+            Vamos a ayudarte a encontrar las posibles causas
+            paso a paso.
+          </p>
         </div>
 
-        {selectedVehicle && (
-          <div className="mt-8 rounded-2xl border border-slate-700 bg-slate-900 p-6">
-            <p className="text-sm text-slate-400">
-              Vehículo seleccionado
-            </p>
+        <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-900 p-6">
+          <p className="text-sm text-slate-400">
+            Vehículo
+          </p>
 
-            <h2 className="mt-2 text-2xl font-semibold">
-              {selectedVehicle.brand} {selectedVehicle.model}
-            </h2>
+          <h2 className="mt-2 text-2xl font-semibold">
+            {selectedVehicle.brand} {selectedVehicle.model}
+          </h2>
 
-            <p className="mt-2 text-slate-400">
-              {selectedVehicle.generation} ·{" "}
-              {selectedVehicle.year} ·{" "}
-              {selectedVehicle.engine} L
-            </p>
+          <p className="mt-2 text-slate-400">
+            {selectedVehicle.generation} ·{" "}
+            {selectedVehicle.year} ·{" "}
+            {selectedVehicle.engine} L ·{" "}
+            {selectedVehicle.fuel} ·{" "}
+            {selectedVehicle.transmission}
+          </p>
+        </div>
 
+        <div className="mt-8 space-y-4">
+          {diagnosticProblems.map((problem) => (
             <button
-  type="button"
-  onClick={() => {
-    router.push(`/diagnostico/problema?vehicle=${vehicleId}`);
-  }}
-  className="mt-6 w-full rounded-xl bg-white px-6 py-4 font-semibold text-slate-950 transition hover:bg-slate-200"
->
-  Continuar
-</button>
-          </div>
-        )}
+              key={problem.id}
+              type="button"
+              disabled={problem.id !== "no-arranca"}
+              onClick={() => {
+                if (problem.id === "no-arranca") {
+                  sessionStorage.removeItem("diagnosticAnswers");
+
+                  router.push(
+                    `/diagnostico/problema?vehicle=${vehicleId}&problem=${problem.id}`
+                  );
+                }
+              }}
+              className={`w-full rounded-2xl border p-6 text-left transition ${
+                problem.id === "no-arranca"
+                  ? "border-slate-800 bg-slate-900 hover:bg-slate-800"
+                  : "cursor-not-allowed border-slate-900 bg-slate-950 opacity-60"
+              }`}
+            >
+              <p className="text-lg font-semibold">
+                {problem.icon} {problem.title}
+              </p>
+
+              <p className="mt-2 text-sm text-slate-400">
+                {problem.description}
+              </p>
+
+              {problem.id !== "no-arranca" && (
+                <p className="mt-3 text-xs font-medium text-slate-500">
+                  Próximamente
+                </p>
+              )}
+            </button>
+          ))}
+        </div>
+
       </section>
     </main>
+  );
+}
+
+export default function DiagnosticoPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-slate-950 text-white">
+          <section className="mx-auto max-w-3xl px-6 py-16">
+            <p className="text-slate-400">
+              Cargando diagnóstico...
+            </p>
+          </section>
+        </main>
+      }
+    >
+      <DiagnosticoContent />
+    </Suspense>
   );
 }

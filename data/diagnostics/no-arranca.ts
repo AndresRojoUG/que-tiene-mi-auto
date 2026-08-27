@@ -29,11 +29,11 @@ export const noArrancaDiagnostic: DiagnosticQuestion[] = [
         label: "El motor gira, pero no arranca",
         nextQuestion: "gira-no-arranca",
       },
-      {
-        id: "arranca-apaga",
-        label: "Arranca y se apaga inmediatamente",
-        nextQuestion: "arranca-apaga",
-      },
+     {
+  id: "arranca-apaga",
+  label: "Arranca y se apaga inmediatamente",
+  nextQuestion: "identificar-sonido",
+},
       {
         id: "no-se",
         label: "No estoy seguro",
@@ -60,9 +60,10 @@ export const noArrancaDiagnostic: DiagnosticQuestion[] = [
         nextQuestion: "no-gira",
       },
       {
-        id: "no-estoy-seguro",
-        label: "No estoy seguro",
-      },
+  id: "no-estoy-seguro",
+  label: "No estoy seguro",
+  nextQuestion: "gira-no-arranca",
+},
     ],
   },
 

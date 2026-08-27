@@ -1,6 +1,7 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const problems = [
   {
@@ -59,9 +60,15 @@ const problems = [
   },
 ];
 
-export default function ProblemaPage() {
+function ProblemaContent() {
+  const router = useRouter();
   const searchParams = useSearchParams();
+
   const vehicleId = searchParams.get("vehicle");
+
+  useEffect(() => {
+    sessionStorage.removeItem("diagnosticAnswers");
+  }, []);
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
@@ -81,11 +88,23 @@ export default function ProblemaPage() {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {problems.map((problem) => (
-            <button
-              key={problem.id}
-              type="button"
-              className="rounded-2xl border border-slate-800 bg-slate-900 p-5 text-left transition hover:border-slate-500 hover:bg-slate-800"
-            >
+           <button
+  key={problem.id}
+  type="button"
+  disabled={problem.id !== "no-arranca"}
+  onClick={() => {
+    if (problem.id === "no-arranca") {
+      router.push(
+        `/diagnostico/preguntas?vehicle=${vehicleId}&question=motor-gira`
+      );
+    }
+  }}
+  className={`rounded-2xl border p-5 text-left transition ${
+    problem.id === "no-arranca"
+      ? "border-slate-800 bg-slate-900 hover:border-slate-500 hover:bg-slate-800"
+      : "cursor-not-allowed border-slate-900 bg-slate-950 opacity-60"
+  }`}
+>
               <div className="text-3xl">{problem.icon}</div>
 
               <h2 className="mt-4 text-xl font-semibold">
@@ -95,6 +114,11 @@ export default function ProblemaPage() {
               <p className="mt-2 text-sm leading-6 text-slate-400">
                 {problem.description}
               </p>
+              {problem.id !== "no-arranca" && (
+  <p className="mt-3 text-xs font-medium text-slate-500">
+    Próximamente
+  </p>
+)}
             </button>
           ))}
         </div>
@@ -104,5 +128,23 @@ export default function ProblemaPage() {
         </p>
       </section>
     </main>
+  );
+}
+
+export default function ProblemaPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-slate-950 text-white">
+          <section className="mx-auto max-w-4xl px-6 py-16">
+            <p className="text-slate-400">
+              Cargando diagnóstico...
+            </p>
+          </section>
+        </main>
+      }
+    >
+      <ProblemaContent />
+    </Suspense>
   );
 }
