@@ -93,21 +93,16 @@ function DiagnosticoContent() {
             <button
               key={problem.id}
               type="button"
-              disabled={problem.id !== "no-arranca"}
               onClick={() => {
                 if (problem.id === "no-arranca") {
                   sessionStorage.removeItem("diagnosticAnswers");
 
                   router.push(
-                    `/diagnostico/problema?vehicle=${vehicleId}&problem=${problem.id}`
+                    `/diagnostico/problema?vehicle=${vehicleId}&problem=no-arranca`
                   );
                 }
               }}
-              className={`w-full rounded-2xl border p-6 text-left transition ${
-                problem.id === "no-arranca"
-                  ? "border-slate-800 bg-slate-900 hover:bg-slate-800"
-                  : "cursor-not-allowed border-slate-900 bg-slate-950 opacity-60"
-              }`}
+              className="w-full rounded-2xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:border-slate-500 hover:bg-slate-800"
             >
               <p className="text-lg font-semibold">
                 {problem.icon} {problem.title}
@@ -116,12 +111,6 @@ function DiagnosticoContent() {
               <p className="mt-2 text-sm text-slate-400">
                 {problem.description}
               </p>
-
-              {problem.id !== "no-arranca" && (
-                <p className="mt-3 text-xs font-medium text-slate-500">
-                  Próximamente
-                </p>
-              )}
             </button>
           ))}
         </div>
