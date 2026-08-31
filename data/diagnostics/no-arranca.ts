@@ -1,16 +1,4 @@
-export type DiagnosticOption = {
-  id: string;
-  label: string;
-  nextQuestion?: string;
-  result?: string;
-};
-
-export type DiagnosticQuestion = {
-  id: string;
-  question: string;
-  explanation?: string;
-  options: DiagnosticOption[];
-};
+import type { DiagnosticQuestion } from "./types";
 
 export const noArrancaDiagnostic: DiagnosticQuestion[] = [
   {
@@ -29,11 +17,11 @@ export const noArrancaDiagnostic: DiagnosticQuestion[] = [
         label: "El motor gira, pero no arranca",
         nextQuestion: "gira-no-arranca",
       },
-     {
-  id: "arranca-apaga",
-  label: "Arranca y se apaga inmediatamente",
-  nextQuestion: "identificar-sonido",
-},
+      {
+        id: "arranca-apaga",
+        label: "Arranca y se apaga inmediatamente",
+        nextQuestion: "identificar-sonido",
+      },
       {
         id: "no-se",
         label: "No estoy seguro",
@@ -60,10 +48,10 @@ export const noArrancaDiagnostic: DiagnosticQuestion[] = [
         nextQuestion: "no-gira",
       },
       {
-  id: "no-estoy-seguro",
-  label: "No estoy seguro",
-  nextQuestion: "gira-no-arranca",
-},
+        id: "no-estoy-seguro",
+        label: "No estoy seguro",
+        nextQuestion: "gira-no-arranca",
+      },
     ],
   },
 
