@@ -1,9 +1,10 @@
 import { noArrancaDiagnostic } from "./no-arranca";
+import type { DiagnosticQuestion } from "./types";
 
 export type DiagnosticDefinition = {
   problemId: string;
   startQuestionId: string;
-  questions: typeof noArrancaDiagnostic;
+  questions: DiagnosticQuestion[];
 };
 
 /**
