@@ -4,6 +4,7 @@ import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getDiagnosticDefinition } from "@/data/diagnostics";
 import { runDiagnostic } from "@/data/diagnostics/engine";
+import { diagnosticProblems } from "@/data/diagnostics/problems";
 import {
   clearDiagnosticAnswers,
   readDiagnosticAnswers,
@@ -25,6 +26,8 @@ function PreguntasContent() {
   const state = diagnostic
     ? runDiagnostic(diagnostic.questions, diagnostic.startQuestionId, answers)
     : null;
+  const problem = diagnosticProblems.find((item) => item.id === problemId);
+  const answeredCount = Object.keys(storedAnswers).length;
 
   const currentQuestionMatchesUrl =
     state?.status !== "question" ||
@@ -138,13 +141,22 @@ function PreguntasContent() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-      <section className="mx-auto max-w-3xl px-6 py-16">
+      <section className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-16">
         <div className="mb-10">
-          <p className="text-sm font-medium text-slate-400">Diagnóstico guiado</p>
-          <p className="mt-2 text-xs uppercase tracking-wide text-slate-500">
-            {problemId}
+          <div className="flex flex-wrap items-center gap-2 text-sm">
+            <span className="rounded-full bg-sky-400/10 px-3 py-1 font-semibold text-sky-300">
+              Diagnóstico guiado
+            </span>
+            <span className="text-slate-500">
+              {problem?.title ?? "Problema seleccionado"}
+            </span>
+          </div>
+          <p className="mt-5 text-sm text-slate-400">
+            {answeredCount === 0
+              ? "Empecemos por identificar el síntoma."
+              : `${answeredCount} respuesta${answeredCount === 1 ? "" : "s"} registrada${answeredCount === 1 ? "" : "s"}.`}
           </p>
-          <h1 className="mt-3 text-3xl font-bold sm:text-4xl">
+          <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
             {question.question}
           </h1>
 
@@ -155,15 +167,20 @@ function PreguntasContent() {
           )}
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3" aria-label="Opciones de respuesta">
           {question.options.map((option) => (
             <button
               key={option.id}
               type="button"
               onClick={() => handleOption(option.id)}
-              className="w-full rounded-2xl border border-slate-800 bg-slate-900 p-5 text-left transition hover:border-slate-500 hover:bg-slate-800"
+              className="group w-full rounded-2xl border border-white/10 bg-slate-900/80 p-5 text-left shadow-sm transition hover:border-sky-400/50 hover:bg-slate-800 active:scale-[0.99]"
             >
-              <span className="text-lg font-semibold">{option.label}</span>
+              <span className="flex items-center justify-between gap-4 text-lg font-bold">
+                {option.label}
+                <span className="text-sky-300 transition group-hover:translate-x-1" aria-hidden="true">
+                  →
+                </span>
+              </span>
             </button>
           ))}
         </div>

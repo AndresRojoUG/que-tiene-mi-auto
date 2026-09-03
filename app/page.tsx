@@ -74,10 +74,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <p className="mx-auto max-w-6xl px-5 pb-8 text-center text-xs leading-5 text-slate-500 sm:px-8 sm:text-left">
-        Información orientativa. Los resultados no sustituyen una revisión de un técnico automotriz.
-      </p>
     </main>
   );
 }

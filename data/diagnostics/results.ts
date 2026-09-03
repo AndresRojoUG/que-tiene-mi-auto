@@ -10,6 +10,7 @@ export type DiagnosticResult = {
   id: string;
   title: string;
   summary: string;
+  safetyNotice?: string;
   possibleCauses: string[];
   recommendedChecks: string[];
   difficulty: "Básico" | "Intermedio" | "Avanzado";
@@ -22,6 +23,8 @@ export const diagnosticResults: DiagnosticResult[] = [
     title: "Prioriza tu seguridad antes de continuar",
     summary:
       "Que el motor se apague durante la marcha puede afectar la dirección asistida, el frenado y otros sistemas. No continúes conduciendo si no puedes hacerlo con seguridad.",
+    safetyNotice:
+      "Detén el vehículo en un lugar seguro. Si el motor se apaga mientras conduces o el síntoma se repite, evita circular hasta que sea revisado.",
     possibleCauses: [
       "Falla intermitente de alimentación eléctrica",
       "Problema en el sistema de combustible",

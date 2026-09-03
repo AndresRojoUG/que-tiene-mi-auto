@@ -56,19 +56,30 @@ function ResultadoContent() {
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
-      <section className="mx-auto max-w-3xl px-6 py-16">
+      <section className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-16">
 
-        <p className="text-sm font-medium text-slate-400">
+        <p className="inline-flex rounded-full bg-sky-400/10 px-3 py-1 text-sm font-bold text-sky-300">
           Resultado preliminar
         </p>
 
-        <h1 className="mt-3 text-4xl font-bold">
+        <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
           {result.title}
         </h1>
 
         <p className="mt-6 text-lg leading-8 text-slate-400">
           {result.summary}
         </p>
+        {result.safetyNotice && (
+          <aside
+            role="alert"
+            className="mt-8 rounded-2xl border border-amber-300/30 bg-amber-300/10 p-5 text-amber-50"
+          >
+            <p className="font-bold">⚠ Atención de seguridad</p>
+            <p className="mt-2 leading-7 text-amber-100/80">
+              {result.safetyNotice}
+            </p>
+          </aside>
+        )}
 <div className="mt-10">
   <h2 className="text-xl font-semibold">
     Comprobaciones realizadas
