@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": false,
+    "outDir": ".diagnostic-validation",
+    "rootDir": ".",
+    "incremental": false
+  },
+  "include": [
+    "data/diagnostics/**/*.ts",
+    "scripts/validate-diagnostics.ts",
+    "scripts/test-diagnostic-engine.ts"
+  ]
+}

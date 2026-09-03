@@ -2,7 +2,9 @@
 
 import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { getDiagnosticDefinition } from "@/data/diagnostics";
 import { diagnosticProblems } from "@/data/diagnostics/problems";
+import { clearDiagnosticAnswers } from "@/lib/diagnostics/session";
 
 
 
@@ -13,7 +15,7 @@ function ProblemaContent() {
   const vehicleId = searchParams.get("vehicle");
 
   useEffect(() => {
-    sessionStorage.removeItem("diagnosticAnswers");
+    clearDiagnosticAnswers();
   }, []);
 
   return (
@@ -33,20 +35,23 @@ function ProblemaContent() {
         </p>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
-        {diagnosticProblems.map((problem) => (
+        {diagnosticProblems.map((problem) => {
+          const isAvailable = Boolean(getDiagnosticDefinition(problem.id));
+
+          return (
            <button
-  key={problem.id}
-  type="button"
-  disabled={problem.id !== "no-arranca"}
-  onClick={() => {
-    if (problem.id === "no-arranca") {
-      router.push(
-        `/diagnostico/preguntas?vehicle=${vehicleId}&question=motor-gira`
-      );
-    }
-  }}
-  className={`rounded-2xl border p-5 text-left transition ${
-    problem.id === "no-arranca"
+              key={problem.id}
+              type="button"
+              disabled={!isAvailable}
+              onClick={() => {
+                if (isAvailable) {
+                  router.push(
+                    `/diagnostico/preguntas?vehicle=${vehicleId}&problem=${problem.id}`,
+                  );
+                }
+              }}
+              className={`rounded-2xl border p-5 text-left transition ${
+                isAvailable
       ? "border-slate-800 bg-slate-900 hover:border-slate-500 hover:bg-slate-800"
       : "cursor-not-allowed border-slate-900 bg-slate-950 opacity-60"
   }`}
@@ -60,13 +65,14 @@ function ProblemaContent() {
               <p className="mt-2 text-sm leading-6 text-slate-400">
                 {problem.description}
               </p>
-              {problem.id !== "no-arranca" && (
+              {!isAvailable && (
   <p className="mt-3 text-xs font-medium text-slate-500">
     Próximamente
   </p>
 )}
             </button>
-          ))}
+          );
+        })}
         </div>
 
         <p className="mt-8 text-xs text-slate-600">

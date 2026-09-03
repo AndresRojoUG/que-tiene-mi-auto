@@ -3,6 +3,7 @@
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { vehicles } from "@/data/vehicles";
+import { clearDiagnosticAnswers } from "@/lib/diagnostics/session";
 
 function DiagnosticoContent() {
   const router = useRouter();
@@ -121,7 +122,7 @@ function DiagnosticoContent() {
         <button
           type="button"
           onClick={() => {
-            sessionStorage.removeItem("diagnosticAnswers");
+            clearDiagnosticAnswers();
 
             router.push(
               `/diagnostico/problema?vehicle=${vehicleId}`

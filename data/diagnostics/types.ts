@@ -11,3 +11,9 @@ export type DiagnosticQuestion = {
   explanation?: string;
   options: DiagnosticOption[];
 };
+
+export type DiagnosticDefinition = {
+  problemId: string;
+  startQuestionId: string;
+  questions: DiagnosticQuestion[];
+};

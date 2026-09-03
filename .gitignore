@@ -2,6 +2,8 @@
 
 # dependencies
 /node_modules
+/.npm-cache
+/.diagnostic-validation
 /.pnp
 .pnp.*
 .yarn/*

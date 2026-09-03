@@ -18,6 +18,91 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "se-apaga-en-movimiento",
+    title: "Prioriza tu seguridad antes de continuar",
+    summary:
+      "Que el motor se apague durante la marcha puede afectar la dirección asistida, el frenado y otros sistemas. No continúes conduciendo si no puedes hacerlo con seguridad.",
+    possibleCauses: [
+      "Falla intermitente de alimentación eléctrica",
+      "Problema en el sistema de combustible",
+      "Falla de encendido o de una señal del motor",
+    ],
+    recommendedChecks: [
+      "Detener el vehículo en un lugar seguro.",
+      "Anotar cuándo ocurrió y qué luces se encendieron.",
+      "Solicitar una revisión profesional antes de volver a circular si el problema se repite.",
+    ],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "se-apaga-en-frio",
+    title: "Posible problema durante el arranque en frío",
+    summary:
+      "El síntoma puede relacionarse con la mezcla de aire y combustible, el control de ralentí o una lectura de sensores. Hace falta una comprobación antes de señalar una causa concreta.",
+    possibleCauses: [
+      "Control de ralentí o admisión de aire",
+      "Lectura incorrecta de un sensor del motor",
+      "Alimentación de combustible insuficiente",
+    ],
+    recommendedChecks: [
+      "Registrar si el problema mejora al calentarse el motor.",
+      "Revisar si hay una luz de advertencia o códigos de falla con un escáner.",
+      "Pedir una inspección si el auto se apaga repetidamente.",
+    ],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "se-apaga-al-detenerse",
+    title: "Posible problema al mantener el ralentí",
+    summary:
+      "Si el motor se mantiene encendido al acelerar ligeramente pero se apaga al detenerse, conviene revisar el sistema que mantiene estable el ralentí. No es un diagnóstico definitivo.",
+    possibleCauses: [
+      "Control de aire al ralentí",
+      "Admisión de aire con una condición anormal",
+      "Lectura de sensores relacionada con el ralentí",
+    ],
+    recommendedChecks: [
+      "Observar si ocurre con el aire acondicionado o cargas eléctricas activadas.",
+      "Consultar códigos de falla si hay una luz de advertencia.",
+      "Programar una revisión si el motor se apaga en cruces o semáforos.",
+    ],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "se-apaga-con-advertencia",
+    title: "Hay una señal adicional que conviene registrar",
+    summary:
+      "Una luz de advertencia puede ayudar a orientar el diagnóstico, pero por sí sola no confirma una pieza dañada.",
+    possibleCauses: [
+      "Código de falla almacenado en el sistema",
+      "Falla intermitente de un sensor o circuito",
+      "Condición anormal de combustible, aire o encendido",
+    ],
+    recommendedChecks: [
+      "Anotar el símbolo o mensaje mostrado en el tablero.",
+      "Leer códigos con un escáner compatible sin borrar la información.",
+      "Solicitar revisión profesional si aparece una advertencia roja o el motor se apaga en movimiento.",
+    ],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "se-apaga-sin-advertencia",
+    title: "Se necesita reunir más evidencia",
+    summary:
+      "El síntoma puede tener varias causas y no hay datos suficientes para afirmar una sola. Registrar el momento y las condiciones ayudará a una revisión posterior.",
+    possibleCauses: [
+      "Falla intermitente de combustible, aire o encendido",
+      "Conexión eléctrica intermitente",
+      "Lectura irregular de un sensor",
+    ],
+    recommendedChecks: [
+      "Anotar si ocurre en frío, caliente, al frenar o al usar accesorios eléctricos.",
+      "Comprobar si existen códigos de falla con un escáner.",
+      "Evitar conducir si el motor se apaga de forma impredecible.",
+    ],
+    difficulty: "Intermedio",
+  },
+  {
     id: "posible-arranque-clic",
 
     title: "Posible problema en el sistema de arranque",

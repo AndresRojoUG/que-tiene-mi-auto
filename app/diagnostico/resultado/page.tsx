@@ -1,30 +1,47 @@
 "use client";
 import { Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { getDiagnosticDefinition } from "@/data/diagnostics";
+import { runDiagnostic } from "@/data/diagnostics/engine";
 import { diagnosticResults } from "@/data/diagnostics/results";
+import {
+  clearDiagnosticAnswers,
+  readDiagnosticAnswers,
+  toEngineAnswers,
+} from "@/lib/diagnostics/session";
 
 function ResultadoContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
   const resultId = searchParams.get("result");
-  const answers = JSON.parse(
-  typeof window !== "undefined"
-    ? sessionStorage.getItem("diagnosticAnswers") || "{}"
-    : "{}"
-);
+  const problemId = searchParams.get("problem") || "no-arranca";
+  const answers = readDiagnosticAnswers(problemId);
+  const diagnostic = getDiagnosticDefinition(problemId);
+  const state = diagnostic
+    ? runDiagnostic(
+        diagnostic.questions,
+        diagnostic.startQuestionId,
+        toEngineAnswers(answers),
+      )
+    : null;
 
-  const result = diagnosticResults.find(
-    (item) => item.id === resultId
-  );
+  const result =
+    state?.status === "result" && state.resultId === resultId
+      ? diagnosticResults.find((item) => item.id === resultId)
+      : undefined;
 
   if (!result) {
     return (
       <main className="min-h-screen bg-slate-950 text-white">
         <section className="mx-auto max-w-3xl px-6 py-16">
           <h1 className="text-3xl font-bold">
-            Resultado no encontrado
+            No pudimos confirmar este resultado
           </h1>
+
+          <p className="mt-4 leading-7 text-slate-400">
+            Inicia el diagnóstico de nuevo para reunir las respuestas necesarias.
+          </p>
 
           <button
             onClick={() => router.push("/diagnostico")}
@@ -156,7 +173,7 @@ function ResultadoContent() {
 
         <button
           onClick={() => {
-  sessionStorage.removeItem("diagnosticAnswers");
+  clearDiagnosticAnswers();
 
   router.push(
     `/diagnostico?vehicle=${searchParams.get("vehicle")}`

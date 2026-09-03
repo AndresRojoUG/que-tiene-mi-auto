@@ -1,42 +1,16 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { getDiagnosticDefinition } from "@/data/diagnostics";
+import { runDiagnostic } from "@/data/diagnostics/engine";
 import {
-  runDiagnostic,
-  type DiagnosticAnswers,
-} from "@/data/diagnostics/engine";
-
-const ANSWERS_STORAGE_KEY = "diagnosticAnswers";
-
-type StoredAnswer = {
-  question: string;
-  answer: string;
-  optionId: string;
-};
-
-type StoredAnswers = Record<string, StoredAnswer>;
-
-function readStoredAnswers(): StoredAnswers {
-  try {
-    const raw = sessionStorage.getItem(ANSWERS_STORAGE_KEY);
-    if (!raw) return {};
-
-    const parsed = JSON.parse(raw) as StoredAnswers;
-    return parsed && typeof parsed === "object" ? parsed : {};
-  } catch {
-    return {};
-  }
-}
-
-function toEngineAnswers(storedAnswers: StoredAnswers): DiagnosticAnswers {
-  return Object.fromEntries(
-    Object.entries(storedAnswers)
-      .filter(([, answer]) => Boolean(answer?.optionId))
-      .map(([questionId, answer]) => [questionId, answer.optionId]),
-  );
-}
+  clearDiagnosticAnswers,
+  readDiagnosticAnswers,
+  toEngineAnswers,
+  writeDiagnosticAnswers,
+  type StoredDiagnosticAnswers,
+} from "@/lib/diagnostics/session";
 
 function PreguntasContent() {
   const searchParams = useSearchParams();
@@ -46,6 +20,30 @@ function PreguntasContent() {
   const problemId = searchParams.get("problem") || "no-arranca";
   const requestedQuestionId = searchParams.get("question");
   const diagnostic = getDiagnosticDefinition(problemId);
+  const storedAnswers = readDiagnosticAnswers(problemId);
+  const answers = toEngineAnswers(storedAnswers);
+  const state = diagnostic
+    ? runDiagnostic(diagnostic.questions, diagnostic.startQuestionId, answers)
+    : null;
+
+  const currentQuestionMatchesUrl =
+    state?.status !== "question" ||
+    !requestedQuestionId ||
+    requestedQuestionId === state.question.id;
+
+  useEffect(() => {
+    if (state?.status === "result") {
+      router.replace(
+        `/diagnostico/resultado?vehicle=${vehicleId}&problem=${problemId}&result=${state.resultId}`,
+      );
+    }
+
+    if (state?.status === "question" && !currentQuestionMatchesUrl) {
+      router.replace(
+        `/diagnostico/preguntas?vehicle=${vehicleId}&problem=${problemId}&question=${state.question.id}`,
+      );
+    }
+  }, [currentQuestionMatchesUrl, problemId, router, state, vehicleId]);
 
   if (!diagnostic) {
     return (
@@ -67,18 +65,9 @@ function PreguntasContent() {
     );
   }
 
-  const storedAnswers = readStoredAnswers();
-  const answers = toEngineAnswers(storedAnswers);
-  const state = runDiagnostic(
-    diagnostic.questions,
-    diagnostic.startQuestionId,
-    answers,
-  );
+  if (!state) return null;
 
   if (state.status === "result") {
-    router.push(
-      `/diagnostico/resultado?vehicle=${vehicleId}&problem=${problemId}&result=${state.resultId}`,
-    );
     return null;
   }
 
@@ -92,7 +81,7 @@ function PreguntasContent() {
           <button
             type="button"
             onClick={() => {
-              sessionStorage.removeItem(ANSWERS_STORAGE_KEY);
+              clearDiagnosticAnswers();
               router.push(`/diagnostico?vehicle=${vehicleId}`);
             }}
             className="mt-8 rounded-xl bg-white px-6 py-3 font-semibold text-slate-950"
@@ -105,9 +94,6 @@ function PreguntasContent() {
   }
 
   const question = state.question;
-  const currentQuestionMatchesUrl =
-    !requestedQuestionId || requestedQuestionId === question.id;
-
   const handleOption = (optionId: string) => {
     const selectedOption = question.options.find(
       (option) => option.id === optionId,
@@ -115,7 +101,7 @@ function PreguntasContent() {
 
     if (!selectedOption) return;
 
-    const nextStoredAnswers: StoredAnswers = {
+    const nextStoredAnswers: StoredDiagnosticAnswers = {
       ...storedAnswers,
       [question.id]: {
         question: question.question,
@@ -124,10 +110,7 @@ function PreguntasContent() {
       },
     };
 
-    sessionStorage.setItem(
-      ANSWERS_STORAGE_KEY,
-      JSON.stringify(nextStoredAnswers),
-    );
+    writeDiagnosticAnswers(problemId, nextStoredAnswers);
 
     const nextState = runDiagnostic(
       diagnostic.questions,
@@ -150,9 +133,6 @@ function PreguntasContent() {
   };
 
   if (!currentQuestionMatchesUrl) {
-    router.replace(
-      `/diagnostico/preguntas?vehicle=${vehicleId}&problem=${problemId}&question=${question.id}`,
-    );
     return null;
   }
 
