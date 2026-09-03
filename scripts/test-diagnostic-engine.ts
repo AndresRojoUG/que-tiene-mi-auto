@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { noArrancaDiagnostic } from "../data/diagnostics/no-arranca";
 import { seApagaDiagnostic } from "../data/diagnostics/se-apaga";
+import { seCalientaDiagnostic } from "../data/diagnostics/se-calienta";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
@@ -54,6 +55,23 @@ const stallingAtIdle = runDiagnostic(seApagaDiagnostic, "momento-se-apaga", {
 assert.equal(stallingAtIdle.status, "result");
 if (stallingAtIdle.status === "result") {
   assert.equal(stallingAtIdle.resultId, "se-apaga-al-detenerse");
+}
+
+const temperatureWarning = runDiagnostic(seCalientaDiagnostic, "sintoma-temperatura", {
+  "sintoma-temperatura": "advertencia-roja",
+});
+assert.equal(temperatureWarning.status, "result");
+if (temperatureWarning.status === "result") {
+  assert.equal(temperatureWarning.resultId, "temperatura-riesgo-inmediato");
+}
+
+const temperatureInTraffic = runDiagnostic(seCalientaDiagnostic, "sintoma-temperatura", {
+  "sintoma-temperatura": "temperatura-alta",
+  "cuando-sube-temperatura": "trafico-o-detenerme",
+});
+assert.equal(temperatureInTraffic.status, "result");
+if (temperatureInTraffic.status === "result") {
+  assert.equal(temperatureInTraffic.resultId, "temperatura-en-baja-velocidad");
 }
 
 console.log("Diagnostic engine tests passed.");

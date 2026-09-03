@@ -1,5 +1,6 @@
 import { noArrancaDiagnostic } from "./no-arranca";
 import { seApagaDiagnostic } from "./se-apaga";
+import { seCalientaDiagnostic } from "./se-calienta";
 import type { DiagnosticDefinition } from "./types";
 
 export type { DiagnosticDefinition } from "./types";
@@ -18,6 +19,11 @@ export const diagnosticDefinitions: DiagnosticDefinition[] = [
     problemId: "se-apaga",
     startQuestionId: "momento-se-apaga",
     questions: seApagaDiagnostic,
+  },
+  {
+    problemId: "se-calienta",
+    startQuestionId: "sintoma-temperatura",
+    questions: seCalientaDiagnostic,
   },
 ];
 

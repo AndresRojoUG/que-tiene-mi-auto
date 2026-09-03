@@ -19,6 +19,74 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "temperatura-riesgo-inmediato",
+    title: "Detén el vehículo y deja enfriar el motor",
+    summary:
+      "El vapor, el humo, un olor intenso o una advertencia roja pueden indicar una condición que requiere atención inmediata. No continúes conduciendo si no puedes hacerlo con seguridad.",
+    safetyNotice:
+      "Detente en un lugar seguro, apaga el motor y no abras el tapón del sistema de refrigeración mientras esté caliente. Solicita ayuda profesional si la advertencia persiste o hay pérdida de líquido.",
+    possibleCauses: [
+      "Pérdida de refrigerante",
+      "Problema de circulación o enfriamiento",
+      "Falla que requiere inspección antes de seguir circulando",
+    ],
+    recommendedChecks: [
+      "Esperar a que el motor se enfríe completamente antes de cualquier inspección visual.",
+      "Consultar el manual del vehículo para la advertencia mostrada.",
+      "Solicitar asistencia profesional si hay vapor, fuga o una advertencia roja.",
+    ],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "temperatura-en-baja-velocidad",
+    title: "La temperatura parece subir a baja velocidad",
+    summary:
+      "El patrón puede ayudar a una revisión profesional, pero no identifica por sí solo una pieza dañada. Registra cuándo ocurre y evita esperar a que llegue a una advertencia roja.",
+    possibleCauses: [
+      "Condición que afecta el enfriamiento cuando hay poco flujo de aire",
+      "Nivel o estado del refrigerante que requiere revisión",
+      "Funcionamiento irregular de un componente del sistema de enfriamiento",
+    ],
+    recommendedChecks: [
+      "Detenerse si la temperatura continúa subiendo.",
+      "Registrar si ocurre con el aire acondicionado encendido o en tráfico.",
+      "Programar una inspección del sistema de enfriamiento.",
+    ],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "temperatura-requiere-revision",
+    title: "Conviene revisar el sistema de enfriamiento pronto",
+    summary:
+      "Una temperatura superior a la normal puede tener varias causas. No se puede determinar una causa definitiva con esta observación solamente.",
+    possibleCauses: [
+      "Nivel o condición del refrigerante",
+      "Fuga o restricción en el sistema",
+      "Funcionamiento irregular de un componente de enfriamiento",
+    ],
+    recommendedChecks: [
+      "No continuar si aparece una advertencia roja o vapor.",
+      "Esperar a que el motor se enfríe por completo antes de una inspección visual segura.",
+      "Solicitar una revisión profesional si el síntoma se repite.",
+    ],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "temperatura-informacion-insuficiente",
+    title: "Necesitamos observar la temperatura con más certeza",
+    summary:
+      "No hay información suficiente para orientar una causa. Una lectura imprecisa puede llevar a decisiones inseguras.",
+    possibleCauses: [
+      "Información insuficiente para proponer una causa",
+    ],
+    recommendedChecks: [
+      "Consultar el manual para identificar el testigo o indicador de temperatura.",
+      "No abrir el sistema de refrigeración si el motor está caliente.",
+      "Detenerse en un lugar seguro si aparece una advertencia roja o vapor.",
+    ],
+    difficulty: "Básico",
+  },
+  {
     id: "se-apaga-en-movimiento",
     title: "Prioriza tu seguridad antes de continuar",
     summary:
