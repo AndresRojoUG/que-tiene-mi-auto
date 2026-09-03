@@ -21,7 +21,7 @@ function PreguntasContent() {
   const problemId = searchParams.get("problem") || "no-arranca";
   const requestedQuestionId = searchParams.get("question");
   const diagnostic = getDiagnosticDefinition(problemId, vehicleId ?? undefined);
-  const storedAnswers = readDiagnosticAnswers(problemId);
+  const storedAnswers = readDiagnosticAnswers(problemId, vehicleId);
   const answers = toEngineAnswers(storedAnswers);
   const state = diagnostic
     ? runDiagnostic(diagnostic.questions, diagnostic.startQuestionId, answers)
@@ -113,13 +113,18 @@ function PreguntasContent() {
       },
     };
 
-    writeDiagnosticAnswers(problemId, nextStoredAnswers);
-
     const nextState = runDiagnostic(
       diagnostic.questions,
       diagnostic.startQuestionId,
       toEngineAnswers(nextStoredAnswers),
     );
+
+    const relevantAnswers: StoredDiagnosticAnswers = {};
+    for (const questionId of Object.keys(nextState.answers)) {
+      const answer = nextStoredAnswers[questionId];
+      if (answer) relevantAnswers[questionId] = answer;
+    }
+    writeDiagnosticAnswers(problemId, vehicleId, relevantAnswers);
 
     if (nextState.status === "result") {
       router.push(

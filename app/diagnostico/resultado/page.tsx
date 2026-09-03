@@ -17,7 +17,7 @@ function ResultadoContent() {
   const resultId = searchParams.get("result");
   const vehicleId = searchParams.get("vehicle");
   const problemId = searchParams.get("problem") || "no-arranca";
-  const answers = readDiagnosticAnswers(problemId);
+  const answers = readDiagnosticAnswers(problemId, vehicleId);
   const diagnostic = getDiagnosticDefinition(problemId, vehicleId ?? undefined);
   const state = diagnostic
     ? runDiagnostic(
@@ -55,6 +55,8 @@ function ResultadoContent() {
     );
   }
 
+  const resolvedAnswers = state?.status === "result" ? state.answers : {};
+
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-3xl px-5 py-10 sm:px-8 sm:py-16">
@@ -87,12 +89,9 @@ function ResultadoContent() {
   </h2>
 
   <div className="mt-4 space-y-3">
-    {Object.entries(answers).map(
-      ([questionId, answer]) => {
-        const data = answer as {
-          question: string;
-          answer: string;
-        };
+    {Object.keys(resolvedAnswers).map((questionId) => {
+        const data = answers[questionId];
+        if (!data) return null;
 
         return (
           <div
@@ -108,8 +107,7 @@ function ResultadoContent() {
             </p>
           </div>
         );
-      }
-    )}
+      })}
   </div>
 </div>
 
@@ -131,7 +129,10 @@ function ResultadoContent() {
 
     <button
       type="button"
-      onClick={() => { if (!result.nextAction) return; router.push( `${result.nextAction.href}&vehicle=${searchParams.get("vehicle")}` ); }}
+      onClick={() => {
+        if (!result.nextAction) return;
+        router.push(`${result.nextAction.href}&vehicle=${vehicleId}`);
+      }}
       className="mt-6 w-full rounded-xl bg-white px-5 py-4 font-semibold text-slate-950 transition hover:bg-slate-200"
     >
       Ver información
@@ -184,13 +185,11 @@ function ResultadoContent() {
         </div>
 
         <button
+          type="button"
           onClick={() => {
-  clearDiagnosticAnswers();
-
-  router.push(
-    `/diagnostico?vehicle=${searchParams.get("vehicle")}`
-  );
-}}
+            clearDiagnosticAnswers();
+            router.push(`/diagnostico?vehicle=${vehicleId}`);
+          }}
           className="mt-10 w-full rounded-xl bg-white px-6 py-4 font-semibold text-slate-950"
         >
           Nuevo diagnóstico

@@ -52,6 +52,16 @@ if (startSystemResult.status === "result") {
   assert.equal(startSystemResult.resultId, "posible-arranque-clic");
 }
 
+const staleAnswersAreIgnored = runDiagnostic(noArrancaDiagnostic, startQuestionId, {
+  "motor-gira": "no-gira",
+  "no-gira": "clic",
+  "gira-no-arranca": "si",
+});
+assert.deepEqual(staleAnswersAreIgnored.answers, {
+  "motor-gira": "no-gira",
+  "no-gira": "clic",
+});
+
 const noScannerResult = runDiagnostic(noArrancaDiagnostic, startQuestionId, {
   "motor-gira": "gira-no-arranca",
   "gira-no-arranca": "si",

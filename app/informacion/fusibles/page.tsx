@@ -157,14 +157,16 @@ function FusiblesContent() {
                   <div className="mt-5 grid gap-3 sm:grid-cols-2">
                     <button
                       type="button"
-                      className="rounded-xl border border-slate-700 px-5 py-4 text-left transition hover:bg-slate-800"
+                      disabled
+                      title="La ubicación detallada aún no está publicada."
+                      className="cursor-not-allowed rounded-xl border border-slate-800 px-5 py-4 text-left text-slate-500"
                     >
                       <span className="block font-semibold">
                         📍 Ver ubicación
                       </span>
 
                       <span className="mt-1 block text-sm text-slate-400">
-                        Identifica dónde se encuentra.
+                        Próximamente con información verificada.
                       </span>
                     </button>
 

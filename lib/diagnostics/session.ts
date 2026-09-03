@@ -11,8 +11,9 @@ export type StoredDiagnosticAnswer = {
 export type StoredDiagnosticAnswers = Record<string, StoredDiagnosticAnswer>;
 
 type DiagnosticSession = {
-  version: 1;
+  version: 2;
   problemId: string;
+  vehicleId: string;
   answers: StoredDiagnosticAnswers;
 };
 
@@ -27,8 +28,12 @@ function isStoredAnswer(value: unknown): value is StoredDiagnosticAnswer {
   );
 }
 
-export function readDiagnosticAnswers(problemId: string): StoredDiagnosticAnswers {
+export function readDiagnosticAnswers(
+  problemId: string,
+  vehicleId: string | null,
+): StoredDiagnosticAnswers {
   if (typeof window === "undefined") return {};
+  if (!vehicleId) return {};
 
   try {
     const raw = sessionStorage.getItem(DIAGNOSTIC_ANSWERS_STORAGE_KEY);
@@ -39,8 +44,9 @@ export function readDiagnosticAnswers(problemId: string): StoredDiagnosticAnswer
 
     const session = parsed as Partial<DiagnosticSession>;
     if (
-      session.version !== 1 ||
+      session.version !== 2 ||
       session.problemId !== problemId ||
+      session.vehicleId !== vehicleId ||
       !session.answers ||
       typeof session.answers !== "object" ||
       Array.isArray(session.answers)
@@ -60,11 +66,13 @@ export function readDiagnosticAnswers(problemId: string): StoredDiagnosticAnswer
 
 export function writeDiagnosticAnswers(
   problemId: string,
+  vehicleId: string | null,
   answers: StoredDiagnosticAnswers,
 ) {
   if (typeof window === "undefined") return;
+  if (!vehicleId) return;
 
-  const session: DiagnosticSession = { version: 1, problemId, answers };
+  const session: DiagnosticSession = { version: 2, problemId, vehicleId, answers };
   sessionStorage.setItem(DIAGNOSTIC_ANSWERS_STORAGE_KEY, JSON.stringify(session));
 }
 

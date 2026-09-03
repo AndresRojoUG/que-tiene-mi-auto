@@ -41,13 +41,14 @@ export function runDiagnostic(
 
   let current = startQuestion;
   const visited = new Set<string>();
+  const resolvedAnswers: DiagnosticAnswers = {};
 
   while (true) {
     if (visited.has(current.id)) {
       return {
         status: "error",
         message: `Diagnostic cycle detected at question: ${current.id}`,
-        answers,
+        answers: resolvedAnswers,
       };
     }
 
@@ -55,7 +56,7 @@ export function runDiagnostic(
     const selectedOptionId = answers[current.id];
 
     if (!selectedOptionId) {
-      return { status: "question", question: current, answers };
+      return { status: "question", question: current, answers: resolvedAnswers };
     }
 
     const option = current.options.find((item) => item.id === selectedOptionId);
@@ -64,19 +65,21 @@ export function runDiagnostic(
       return {
         status: "error",
         message: `Unknown option "${selectedOptionId}" for question: ${current.id}`,
-        answers,
+        answers: resolvedAnswers,
       };
     }
 
+    resolvedAnswers[current.id] = selectedOptionId;
+
     if (option.result) {
-      return { status: "result", resultId: option.result, answers };
+      return { status: "result", resultId: option.result, answers: resolvedAnswers };
     }
 
     if (!option.nextQuestion) {
       return {
         status: "error",
         message: `Option "${option.id}" has no destination`,
-        answers,
+        answers: resolvedAnswers,
       };
     }
 
@@ -86,7 +89,7 @@ export function runDiagnostic(
       return {
         status: "error",
         message: `Unknown next question: ${option.nextQuestion}`,
-        answers,
+        answers: resolvedAnswers,
       };
     }
 
