@@ -1,4 +1,5 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type NextRequest } from "next/server";
+import { updateSession } from "@/lib/supabase/proxy";
 
 /**
  * Request boundary for future authentication/session handling.
@@ -7,8 +8,8 @@ import { NextResponse, type NextRequest } from "next/server";
  * dependency-free allows the public application to build cleanly while the
  * authentication layer is developed as a separate, tested feature.
  */
-export function proxy(request: NextRequest) {
-  return NextResponse.next({ request });
+export async function proxy(request: NextRequest) {
+  return updateSession(request);
 }
 
 export const config = {
