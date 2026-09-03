@@ -19,6 +19,96 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "electrico-riesgo-inmediato",
+    title: "No continúes manipulando el sistema eléctrico",
+    summary:
+      "El humo, chispas, olor a quemado o calor anormal pueden indicar una condición de riesgo. No intentes aislar ni reparar cables por tu cuenta.",
+    safetyNotice:
+      "Detente en un lugar seguro y apaga el vehículo si hacerlo es seguro. Solicita asistencia profesional; ante humo o fuego, aléjate del vehículo y llama a emergencias.",
+    possibleCauses: [
+      "Cortocircuito o conexión con sobrecalentamiento",
+      "Componente eléctrico con una condición anormal",
+      "Cableado o aislamiento que requiere inspección profesional",
+    ],
+    recommendedChecks: [
+      "No tocar cables, fusibles ni componentes calientes.",
+      "Registrar el lugar y las condiciones en que apareció la señal.",
+      "Solicitar una inspección profesional antes de volver a usar el vehículo.",
+    ],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "electrico-requiere-revision-carga",
+    title: "Conviene revisar el sistema de carga pronto",
+    summary:
+      "La luz de batería normalmente informa sobre el sistema de carga, no confirma que la batería sea la única causa. El vehículo puede perder alimentación después de un tiempo.",
+    safetyNotice:
+      "Si la luz aparece mientras conduces, reduce el uso de accesorios y busca detenerte con seguridad. No continúes si notas pérdida de dirección asistida, luces o funcionamiento irregular.",
+    possibleCauses: [
+      "Sistema de carga con funcionamiento irregular",
+      "Conexión de batería o tierra que requiere revisión",
+      "Batería con una condición que necesita comprobación",
+    ],
+    recommendedChecks: [
+      "Anotar cuándo se enciende la luz y si desaparece.",
+      "Solicitar una prueba del sistema de carga y de la batería.",
+      "Evitar asumir una pieza dañada sin una medición profesional.",
+    ],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "electrico-falla-en-marcha",
+    title: "Prioriza detenerte de forma segura",
+    summary:
+      "Una falla eléctrica durante la marcha puede afectar la iluminación, los avisos o sistemas de asistencia. No es posible identificar un circuito específico sin datos del vehículo y una revisión.",
+    safetyNotice:
+      "No continúes conduciendo si las luces esenciales, el tablero o la dirección asistida fallan. Detente en un lugar seguro y solicita revisión profesional.",
+    possibleCauses: [
+      "Falla intermitente de alimentación o conexiones",
+      "Condición anormal en el sistema de carga",
+      "Circuito que requiere diagnóstico específico del vehículo",
+    ],
+    recommendedChecks: [
+      "Registrar qué sistemas fallaron y en qué momento.",
+      "No sustituir fusibles por uno de mayor capacidad.",
+      "Solicitar diagnóstico con la información específica del vehículo.",
+    ],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "electrico-accesorio-aislado",
+    title: "La falla parece limitada a un circuito o accesorio",
+    summary:
+      "Un accesorio que falla puede relacionarse con su alimentación, su control o el propio componente. Sin el diagrama correcto del vehículo no se debe señalar un fusible concreto.",
+    possibleCauses: [
+      "Fusible o protección del circuito que requiere identificación verificada",
+      "Conector, cableado o control del accesorio",
+      "El accesorio con una condición propia",
+    ],
+    recommendedChecks: [
+      "Consultar el manual correspondiente a la marca, modelo y año exactos.",
+      "No instalar un fusible de mayor capacidad ni puentear una protección.",
+      "Solicitar revisión si el mismo fusible vuelve a fallar.",
+    ],
+    difficulty: "Básico",
+  },
+  {
+    id: "electrico-informacion-insuficiente",
+    title: "Necesitamos identificar mejor el síntoma eléctrico",
+    summary:
+      "Las fallas eléctricas pueden involucrar muchos circuitos. Identificar qué funciona y qué no ayudará a realizar una revisión segura y específica.",
+    possibleCauses: [
+      "Información insuficiente para orientar un circuito concreto",
+      "Más de un síntoma que requiere una inspección ordenada",
+    ],
+    recommendedChecks: [
+      "Anotar los testigos, accesorios y momentos en que aparece la falla.",
+      "Consultar el manual del vehículo antes de revisar protecciones.",
+      "Solicitar revisión si hay pérdida de funciones esenciales o señales de calentamiento.",
+    ],
+    difficulty: "Básico",
+  },
+  {
     id: "temperatura-riesgo-inmediato",
     title: "Detén el vehículo y deja enfriar el motor",
     summary:

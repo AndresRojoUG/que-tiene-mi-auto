@@ -6,6 +6,7 @@ import {
 import { noArrancaDiagnostic } from "../data/diagnostics/no-arranca";
 import { seApagaDiagnostic } from "../data/diagnostics/se-apaga";
 import { seCalientaDiagnostic } from "../data/diagnostics/se-calienta";
+import { electricoDiagnostic } from "../data/diagnostics/electrico";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
@@ -102,6 +103,23 @@ const temperatureInTraffic = runDiagnostic(seCalientaDiagnostic, "sintoma-temper
 assert.equal(temperatureInTraffic.status, "result");
 if (temperatureInTraffic.status === "result") {
   assert.equal(temperatureInTraffic.resultId, "temperatura-en-baja-velocidad");
+}
+
+const electricalRisk = runDiagnostic(electricoDiagnostic, "riesgo-electrico", {
+  "riesgo-electrico": "si",
+});
+assert.equal(electricalRisk.status, "result");
+if (electricalRisk.status === "result") {
+  assert.equal(electricalRisk.resultId, "electrico-riesgo-inmediato");
+}
+
+const isolatedAccessory = runDiagnostic(electricoDiagnostic, "riesgo-electrico", {
+  "riesgo-electrico": "no",
+  "alcance-falla-electrica": "un-accesorio",
+});
+assert.equal(isolatedAccessory.status, "result");
+if (isolatedAccessory.status === "result") {
+  assert.equal(isolatedAccessory.resultId, "electrico-accesorio-aislado");
 }
 
 console.log("Diagnostic engine tests passed.");

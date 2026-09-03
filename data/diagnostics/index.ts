@@ -1,3 +1,4 @@
+import { electricoDiagnostic } from "./electrico";
 import { noArrancaDiagnostic } from "./no-arranca";
 import { seApagaDiagnostic } from "./se-apaga";
 import { seCalientaDiagnostic } from "./se-calienta";
@@ -10,6 +11,11 @@ export type { DiagnosticDefinition } from "./types";
  * New problems should be added here instead of creating special cases in the UI.
  */
 export const diagnosticDefinitions: DiagnosticDefinition[] = [
+  {
+    problemId: "electrico",
+    startQuestionId: "riesgo-electrico",
+    questions: electricoDiagnostic,
+  },
   {
     problemId: "no-arranca",
     startQuestionId: "motor-gira",
