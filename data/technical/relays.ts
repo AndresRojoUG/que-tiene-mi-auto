@@ -1,9 +1,12 @@
+import type { TechnicalDataVerification } from "./types";
+
 export type Relay = {
   vehicleId: string;
   number: number | string;
   name: string;
   description: string;
   location: "interior" | "bateria" | "motor";
+  verification: TechnicalDataVerification;
 };
 
 export const relays: Relay[] = [
@@ -14,5 +17,8 @@ export const relays: Relay[] = [
     description:
       "Relé relacionado con la alimentación de sistemas eléctricos y de control del vehículo.",
     location: "interior",
+    verification: {
+      status: "pending",
+    },
   },
 ];

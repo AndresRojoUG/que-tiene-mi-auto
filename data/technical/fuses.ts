@@ -1,3 +1,5 @@
+import type { TechnicalDataVerification } from "./types";
+
 export type Fuse = {
   vehicleId: string;
   number: number | string;
@@ -5,6 +7,7 @@ export type Fuse = {
   type: "MINI" | "ATO" | "MAXI";
   description: string;
   location: "interior" | "bateria";
+  verification: TechnicalDataVerification;
 };
 export const fuses: Fuse[] = [
   {
@@ -15,5 +18,8 @@ export const fuses: Fuse[] = [
     description:
       "Alimentación relacionada con el relé principal y unidad de control del motor.",
     location: "interior",
+    verification: {
+      status: "pending",
+    },
   },
 ];

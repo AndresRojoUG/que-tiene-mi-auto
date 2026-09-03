@@ -17,7 +17,12 @@ function FusiblesContent() {
   );
 
   const vehicleFuses = fuses.filter(
-    (fuse) => fuse.vehicleId === vehicleId
+    (fuse) =>
+      fuse.vehicleId === vehicleId && fuse.verification.status === "verified",
+  );
+  const hasPendingFuses = fuses.some(
+    (fuse) =>
+      fuse.vehicleId === vehicleId && fuse.verification.status === "pending",
   );
 
   const fromDiagnostic =
@@ -64,10 +69,9 @@ function FusiblesContent() {
         {/* Aviso */}
         <div className="mt-8 rounded-2xl border border-amber-900/50 bg-amber-950/30 p-5">
           <p className="text-sm leading-6 text-amber-200">
-            La información mostrada corresponde a la
-            configuración seleccionada. Antes de sustituir un
-            fusible, verifica siempre que el amperaje coincida
-            con el especificado para tu vehículo.
+            Solo publicamos datos técnicos que hayan sido verificados para la
+            configuración seleccionada. Antes de sustituir un fusible, confirma
+            siempre el amperaje indicado en la documentación del vehículo.
           </p>
         </div>
 
@@ -78,13 +82,15 @@ function FusiblesContent() {
               <div className="text-4xl">🔧</div>
 
               <h2 className="mt-4 text-2xl font-bold">
-                Información aún no disponible
+                {hasPendingFuses
+                  ? "Información en proceso de verificación"
+                  : "Información aún no disponible"}
               </h2>
 
               <p className="mx-auto mt-3 max-w-xl leading-7 text-slate-400">
-                Todavía estamos incorporando la información de fusibles
-                para este vehículo. Estamos ampliando progresivamente
-                nuestra base de datos técnica.
+                {hasPendingFuses
+                  ? "Tenemos referencias iniciales, pero aún no se han verificado con una fuente técnica adecuada. No las mostraremos como datos definitivos."
+                  : "Todavía estamos incorporando información de fusibles para este vehículo. Estamos ampliando progresivamente nuestra base de datos técnica."}
               </p>
 
               <button

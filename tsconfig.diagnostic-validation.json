@@ -10,7 +10,9 @@
   },
   "include": [
     "data/diagnostics/**/*.ts",
+    "data/technical/**/*.ts",
     "scripts/validate-diagnostics.ts",
+    "scripts/validate-technical-data.ts",
     "scripts/test-diagnostic-engine.ts"
   ]
 }
