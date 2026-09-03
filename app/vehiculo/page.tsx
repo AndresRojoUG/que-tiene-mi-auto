@@ -3,7 +3,11 @@
 
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { vehicles } from "@/data/vehicles";
+import {
+  getVehicleById,
+  getVehicleDisplayName,
+  getVehicleSummary,
+} from "@/data/vehicles";
 
 function VehiculoContent() {
   const router = useRouter();
@@ -11,9 +15,7 @@ function VehiculoContent() {
 
   const vehicleId = searchParams.get("id");
 
-  const vehicle = vehicles.find(
-    (item) => item.id === vehicleId
-  );
+  const vehicle = getVehicleById(vehicleId);
 
   if (!vehicle) {
     return (
@@ -60,13 +62,11 @@ function VehiculoContent() {
           </p>
 
           <h1 className="mt-2 text-4xl font-bold">
-            {vehicle.brand} {vehicle.model}
+            {getVehicleDisplayName(vehicle)}
           </h1>
 
           <p className="mt-3 text-slate-400">
-            {vehicle.generation} · {vehicle.year} ·{" "}
-            {vehicle.engine} · {vehicle.fuel} ·{" "}
-            {vehicle.transmission}
+            {getVehicleSummary(vehicle)}
           </p>
         </div>
 

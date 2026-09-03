@@ -2,7 +2,11 @@
 
 import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { vehicles } from "@/data/vehicles";
+import {
+  getVehicleById,
+  getVehicleDisplayName,
+  getVehicleSummary,
+} from "@/data/vehicles";
 import { clearDiagnosticAnswers } from "@/lib/diagnostics/session";
 
 function DiagnosticoContent() {
@@ -11,9 +15,7 @@ function DiagnosticoContent() {
 
   const vehicleId = searchParams.get("vehicle");
 
-  const selectedVehicle = vehicles.find(
-    (vehicle) => vehicle.id === vehicleId
-  );
+  const selectedVehicle = getVehicleById(vehicleId);
 
   if (!selectedVehicle) {
     return (
@@ -77,15 +79,11 @@ function DiagnosticoContent() {
           </p>
 
           <h2 className="mt-2 text-2xl font-semibold">
-            {selectedVehicle.brand} {selectedVehicle.model}
+            {getVehicleDisplayName(selectedVehicle)}
           </h2>
 
           <p className="mt-2 text-slate-400">
-            {selectedVehicle.generation} ·{" "}
-            {selectedVehicle.year} ·{" "}
-            {selectedVehicle.engine} L ·{" "}
-            {selectedVehicle.fuel} ·{" "}
-            {selectedVehicle.transmission}
+            {getVehicleSummary(selectedVehicle)}
           </p>
         </div>
 

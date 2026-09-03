@@ -3,7 +3,7 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { fuses } from "@/data/technical/fuses";
-import { vehicles } from "@/data/vehicles";
+import { getVehicleById, getVehicleSummary } from "@/data/vehicles";
 import DiagnosticGuide from "@/components/DiagnosticGuide";
 
 function FusiblesContent() {
@@ -12,9 +12,7 @@ function FusiblesContent() {
 
   const vehicleId = searchParams.get("vehicle");
 
-  const vehicle = vehicles.find(
-    (item) => item.id === vehicleId
-  );
+  const vehicle = getVehicleById(vehicleId);
 
   const vehicleFuses = fuses.filter(
     (fuse) =>
@@ -61,7 +59,7 @@ function FusiblesContent() {
 
           <p className="mt-4 text-slate-400">
             {vehicle
-              ? `${vehicle.brand} ${vehicle.model} ${vehicle.generation} · ${vehicle.year} · ${vehicle.engine} L · ${vehicle.fuel} · ${vehicle.transmission}`
+              ? `${vehicle.brand} ${vehicle.model} ${getVehicleSummary(vehicle)}`
               : "Vehículo no encontrado"}
           </p>
         </div>

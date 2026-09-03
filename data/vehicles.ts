@@ -18,7 +18,7 @@ export const vehicles: Vehicle[] = [
     year: 2009,
     engine: "2.0",
     fuel: "Gasolina",
-transmission: "Manual",
+    transmission: "Manual",
   },
   {
     id: "vw-golf-a4-2008-2.0",
@@ -28,7 +28,7 @@ transmission: "Manual",
     year: 2008,
     engine: "2.0",
     fuel: "Gasolina",
-transmission: "Manual",
+    transmission: "Manual",
   },
   {
     id: "nissan-sentra-b16-2011-2.0",
@@ -38,10 +38,24 @@ transmission: "Manual",
     year: 2011,
     engine: "2.0",
     fuel: "Gasolina",
-transmission: "Manual",
+    transmission: "Manual",
   },
 ];
 
 export function getVehicleById(vehicleId: string | null | undefined) {
   return vehicles.find((vehicle) => vehicle.id === vehicleId);
+}
+
+export function getVehicleDisplayName(vehicle: Vehicle) {
+  return `${vehicle.brand} ${vehicle.model}`;
+}
+
+export function getVehicleSummary(vehicle: Vehicle) {
+  return [
+    vehicle.generation,
+    String(vehicle.year),
+    vehicle.engine,
+    vehicle.fuel,
+    vehicle.transmission,
+  ].join(" · ");
 }
