@@ -27,8 +27,23 @@ export const diagnosticDefinitions: DiagnosticDefinition[] = [
   },
 ];
 
-export function getDiagnosticDefinition(problemId: string) {
-  return diagnosticDefinitions.find(
-    (diagnostic) => diagnostic.problemId === problemId,
+export function resolveDiagnosticDefinition(
+  definitions: DiagnosticDefinition[],
+  problemId: string,
+  vehicleId?: string,
+) {
+  return (
+    definitions.find(
+      (diagnostic) =>
+        diagnostic.problemId === problemId && diagnostic.vehicleId === vehicleId,
+    ) ??
+    definitions.find(
+      (diagnostic) =>
+        diagnostic.problemId === problemId && diagnostic.vehicleId === undefined,
+    )
   );
+}
+
+export function getDiagnosticDefinition(problemId: string, vehicleId?: string) {
+  return resolveDiagnosticDefinition(diagnosticDefinitions, problemId, vehicleId);
 }

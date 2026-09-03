@@ -20,7 +20,7 @@ function PreguntasContent() {
   const vehicleId = searchParams.get("vehicle");
   const problemId = searchParams.get("problem") || "no-arranca";
   const requestedQuestionId = searchParams.get("question");
-  const diagnostic = getDiagnosticDefinition(problemId);
+  const diagnostic = getDiagnosticDefinition(problemId, vehicleId ?? undefined);
   const storedAnswers = readDiagnosticAnswers(problemId);
   const answers = toEngineAnswers(storedAnswers);
   const state = diagnostic

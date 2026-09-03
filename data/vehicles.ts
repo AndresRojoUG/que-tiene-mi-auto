@@ -41,3 +41,7 @@ transmission: "Manual",
 transmission: "Manual",
   },
 ];
+
+export function getVehicleById(vehicleId: string | null | undefined) {
+  return vehicles.find((vehicle) => vehicle.id === vehicleId);
+}

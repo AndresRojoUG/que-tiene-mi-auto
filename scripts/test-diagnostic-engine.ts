@@ -1,10 +1,40 @@
 import assert from "node:assert/strict";
+import {
+  resolveDiagnosticDefinition,
+  type DiagnosticDefinition,
+} from "../data/diagnostics";
 import { noArrancaDiagnostic } from "../data/diagnostics/no-arranca";
 import { seApagaDiagnostic } from "../data/diagnostics/se-apaga";
 import { seCalientaDiagnostic } from "../data/diagnostics/se-calienta";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
+
+const genericDefinition: DiagnosticDefinition = {
+  problemId: "escalable",
+  startQuestionId: "inicio",
+  questions: [],
+};
+const vehicleSpecificDefinition: DiagnosticDefinition = {
+  ...genericDefinition,
+  vehicleId: "vehiculo-especifico",
+};
+assert.equal(
+  resolveDiagnosticDefinition(
+    [genericDefinition, vehicleSpecificDefinition],
+    "escalable",
+    "vehiculo-especifico",
+  ),
+  vehicleSpecificDefinition,
+);
+assert.equal(
+  resolveDiagnosticDefinition(
+    [genericDefinition, vehicleSpecificDefinition],
+    "escalable",
+    "otro-vehiculo",
+  ),
+  genericDefinition,
+);
 
 const initialState = runDiagnostic(noArrancaDiagnostic, startQuestionId);
 assert.equal(initialState.status, "question");

@@ -15,9 +15,10 @@ function ResultadoContent() {
   const router = useRouter();
 
   const resultId = searchParams.get("result");
+  const vehicleId = searchParams.get("vehicle");
   const problemId = searchParams.get("problem") || "no-arranca";
   const answers = readDiagnosticAnswers(problemId);
-  const diagnostic = getDiagnosticDefinition(problemId);
+  const diagnostic = getDiagnosticDefinition(problemId, vehicleId ?? undefined);
   const state = diagnostic
     ? runDiagnostic(
         diagnostic.questions,

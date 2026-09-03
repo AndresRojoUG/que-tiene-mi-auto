@@ -11,8 +11,11 @@
   "include": [
     "data/diagnostics/**/*.ts",
     "data/technical/**/*.ts",
+    "data/vehicles.ts",
+    "data/vehicles.validate.ts",
     "scripts/validate-diagnostics.ts",
     "scripts/validate-technical-data.ts",
+    "scripts/validate-vehicle-catalog.ts",
     "scripts/test-diagnostic-engine.ts"
   ]
 }

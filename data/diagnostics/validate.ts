@@ -108,17 +108,18 @@ export function validateDiagnosticDefinitions(
   resultIds: string[],
 ): DiagnosticValidationIssue[] {
   const issues: DiagnosticValidationIssue[] = [];
-  const problemIds = new Set<string>();
+  const definitionKeys = new Set<string>();
   const knownResults = new Set(resultIds);
 
   for (const diagnostic of diagnostics) {
-    if (problemIds.has(diagnostic.problemId)) {
+    const definitionKey = `${diagnostic.problemId}:${diagnostic.vehicleId ?? "generic"}`;
+    if (definitionKeys.has(definitionKey)) {
       issues.push({
         diagnosticId: diagnostic.problemId || "<missing>",
-        message: `Duplicate diagnostic problem ID: ${diagnostic.problemId}.`,
+        message: `Duplicate diagnostic definition: ${definitionKey}.`,
       });
     }
-    problemIds.add(diagnostic.problemId);
+    definitionKeys.add(definitionKey);
     issues.push(...validateDiagnosticDefinition(diagnostic, knownResults));
   }
 

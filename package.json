@@ -10,8 +10,9 @@
     "typecheck": "tsc --noEmit",
     "validate:diagnostics": "tsc --project tsconfig.diagnostic-validation.json && node .diagnostic-validation/scripts/validate-diagnostics.js",
     "validate:technical": "tsc --project tsconfig.diagnostic-validation.json && node .diagnostic-validation/scripts/validate-technical-data.js",
+    "validate:vehicles": "tsc --project tsconfig.diagnostic-validation.json && node .diagnostic-validation/scripts/validate-vehicle-catalog.js",
     "test:diagnostics": "tsc --project tsconfig.diagnostic-validation.json && node .diagnostic-validation/scripts/test-diagnostic-engine.js",
-    "check": "npm run lint && npm run typecheck && npm run validate:diagnostics && npm run validate:technical && npm run test:diagnostics && npm run build"
+    "check": "npm run lint && npm run typecheck && npm run validate:diagnostics && npm run validate:technical && npm run validate:vehicles && npm run test:diagnostics && npm run build"
   },
   "dependencies": {
     "next": "16.3.3",

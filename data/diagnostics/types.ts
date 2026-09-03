@@ -14,6 +14,8 @@ export type DiagnosticQuestion = {
 
 export type DiagnosticDefinition = {
   problemId: string;
+  /** Optional vehicle variant ID. Omit it for a reusable fallback definition. */
+  vehicleId?: string;
   startQuestionId: string;
   questions: DiagnosticQuestion[];
 };

@@ -36,7 +36,9 @@ function ProblemaContent() {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {diagnosticProblems.map((problem) => {
-          const isAvailable = Boolean(getDiagnosticDefinition(problem.id));
+          const isAvailable = Boolean(
+            getDiagnosticDefinition(problem.id, vehicleId ?? undefined),
+          );
 
           return (
            <button
