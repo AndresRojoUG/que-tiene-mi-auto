@@ -49,6 +49,12 @@ export default function AppHeader() {
 
         <nav aria-label="Navegación principal" className="flex items-center gap-1">
           <Link
+            href="/historial"
+            className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white sm:inline-flex"
+          >
+            Historial
+          </Link>
+          <Link
             href={myVehicleHref}
             className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
           >

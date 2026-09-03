@@ -5,6 +5,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { getDiagnosticDefinition } from "@/data/diagnostics";
 import { runDiagnostic } from "@/data/diagnostics/engine";
 import { diagnosticProblems } from "@/data/diagnostics/problems";
+import { diagnosticResults } from "@/data/diagnostics/results";
+import { saveDiagnosticHistory } from "@/lib/diagnostics/history";
 import {
   clearDiagnosticAnswers,
   readDiagnosticAnswers,
@@ -127,6 +129,13 @@ function PreguntasContent() {
     writeDiagnosticAnswers(problemId, vehicleId, relevantAnswers);
 
     if (nextState.status === "result") {
+      if (vehicleId && diagnosticResults.some((item) => item.id === nextState.resultId)) {
+        saveDiagnosticHistory({
+          vehicleId,
+          problemId,
+          resultId: nextState.resultId,
+        });
+      }
       router.push(
         `/diagnostico/resultado?vehicle=${vehicleId}&problem=${problemId}&result=${nextState.resultId}`,
       );
