@@ -10,6 +10,7 @@ import {
   getVehicleModels,
   getVehicleYears,
 } from "@/data/vehicles";
+import { saveSelectedVehicleId } from "@/lib/vehicles/session";
 
 export default function SeleccionarVehiculoPage() {
   const router = useRouter();
@@ -77,6 +78,7 @@ export default function SeleccionarVehiculoPage() {
   const handleContinue = () => {
     if (!selectedVehicle) return;
 
+    saveSelectedVehicleId(selectedVehicle.id);
     router.push(`/vehiculo?id=${selectedVehicle.id}`);
   };
 

@@ -1,13 +1,14 @@
 
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
   getVehicleById,
   getVehicleDisplayName,
   getVehicleSummary,
 } from "@/data/vehicles";
+import { saveSelectedVehicleId } from "@/lib/vehicles/session";
 
 function VehiculoContent() {
   const router = useRouter();
@@ -16,6 +17,10 @@ function VehiculoContent() {
   const vehicleId = searchParams.get("id");
 
   const vehicle = getVehicleById(vehicleId);
+
+  useEffect(() => {
+    if (vehicle) saveSelectedVehicleId(vehicle.id);
+  }, [vehicle]);
 
   if (!vehicle) {
     return (
