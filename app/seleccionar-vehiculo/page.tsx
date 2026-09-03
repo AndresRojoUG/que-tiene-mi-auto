@@ -2,7 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { vehicles } from "@/data/vehicles";
+import {
+  findVehicle,
+  getVehicleBrands,
+  getVehicleEngines,
+  getVehicleGenerations,
+  getVehicleModels,
+  getVehicleYears,
+} from "@/data/vehicles";
 
 export default function SeleccionarVehiculoPage() {
   const router = useRouter();
@@ -14,72 +21,32 @@ export default function SeleccionarVehiculoPage() {
   const [engine, setEngine] = useState("");
 
   const brands = useMemo(() => {
-    return [...new Set(vehicles.map((vehicle) => vehicle.brand))];
+    return getVehicleBrands();
   }, []);
 
   const models = useMemo(() => {
-    return [
-      ...new Set(
-        vehicles
-          .filter((vehicle) => vehicle.brand === brand)
-          .map((vehicle) => vehicle.model)
-      ),
-    ];
+    return getVehicleModels(brand);
   }, [brand]);
 
   const generations = useMemo(() => {
-    return [
-      ...new Set(
-        vehicles
-          .filter(
-            (vehicle) =>
-              vehicle.brand === brand &&
-              vehicle.model === model
-          )
-          .map((vehicle) => vehicle.generation)
-      ),
-    ];
+    return getVehicleGenerations(brand, model);
   }, [brand, model]);
 
   const years = useMemo(() => {
-    return [
-      ...new Set(
-        vehicles
-          .filter(
-            (vehicle) =>
-              vehicle.brand === brand &&
-              vehicle.model === model &&
-              vehicle.generation === generation
-          )
-          .map((vehicle) => vehicle.year)
-      ),
-    ];
+    return getVehicleYears(brand, model, generation);
   }, [brand, model, generation]);
 
   const engines = useMemo(() => {
-    return [
-      ...new Set(
-        vehicles
-          .filter(
-            (vehicle) =>
-              vehicle.brand === brand &&
-              vehicle.model === model &&
-              vehicle.generation === generation &&
-              vehicle.year === Number(year)
-          )
-          .map((vehicle) => vehicle.engine)
-      ),
-    ];
+    return getVehicleEngines(brand, model, generation, Number(year));
   }, [brand, model, generation, year]);
 
-  const selectedVehicle = vehicles.find(
-    (vehicle) =>
-      vehicle.brand === brand &&
-      vehicle.model === model &&
-      vehicle.generation === generation &&
-      vehicle.year === Number(year) &&
-      vehicle.engine === engine
-  );
+  const selectedVehicle = findVehicle({
+    brand,
+    model,
+    generation,
+    year: Number(year),
+    engine,
+  });
 
   const handleBrandChange = (value: string) => {
     setBrand(value);
