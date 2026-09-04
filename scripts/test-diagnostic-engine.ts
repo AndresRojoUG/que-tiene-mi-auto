@@ -13,7 +13,8 @@ import { pierdePotenciaDiagnostic } from "../data/diagnostics/pierde-potencia";
 import { tironeaDiagnostic } from "../data/diagnostics/tironea";
 import { ruidoDiagnostic } from "../data/diagnostics/ruido";
 import { runDiagnostic } from "../data/diagnostics/engine";
-import { localizeQuestions } from "../data/diagnostics/localization";
+import { localizeDiagnosticResult, localizeQuestions } from "../data/diagnostics/localization";
+import { diagnosticResults } from "../data/diagnostics/results";
 
 const startQuestionId = "motor-gira";
 
@@ -53,6 +54,12 @@ const englishStartQuestions = localizeQuestions(noArrancaDiagnostic, "en");
 assert.notEqual(englishStartQuestions[0].question, noArrancaDiagnostic[0].question);
 assert.equal(englishStartQuestions[0].options[0].nextQuestion, "no-gira");
 assert.equal(englishStartQuestions[0].options[0].id, "no-gira");
+
+const powerRiskResult = diagnosticResults.find((result) => result.id === "potencia-riesgo-inmediato");
+assert.ok(powerRiskResult);
+const englishPowerRiskResult = localizeDiagnosticResult(powerRiskResult, "en");
+assert.notEqual(englishPowerRiskResult.title, powerRiskResult.title);
+assert.equal(englishPowerRiskResult.safetyNotice?.includes("Stop in a safe place"), true);
 
 const startSystemResult = runDiagnostic(noArrancaDiagnostic, startQuestionId, {
   "motor-gira": "no-gira",
