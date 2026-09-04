@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
+import { useState, useSyncExternalStore } from "react";
 import { diagnosticProblems } from "@/data/diagnostics/problems";
 import { diagnosticResults } from "@/data/diagnostics/results";
 import { getVehicleById, getVehicleDisplayName } from "@/data/vehicles";
@@ -10,6 +10,7 @@ import {
   readDiagnosticHistory,
   subscribeToDiagnosticHistory,
 } from "@/lib/diagnostics/history";
+import { syncDiagnosticHistory } from "@/lib/diagnostics/cloud-history";
 
 function formatHistoryDate(createdAt: string) {
   const date = new Date(createdAt);
@@ -27,6 +28,26 @@ export default function HistorialPage() {
     readDiagnosticHistory,
     getDiagnosticHistoryServerSnapshot,
   );
+  const [syncMessage, setSyncMessage] = useState<string>();
+  const [isSyncing, setIsSyncing] = useState(false);
+
+  async function handleSync() {
+    setIsSyncing(true);
+    setSyncMessage(undefined);
+
+    try {
+      const result = await syncDiagnosticHistory(history);
+      setSyncMessage(
+        result.status === "synced"
+          ? `${result.count} diagnóstico${result.count === 1 ? "" : "s"} sincronizado${result.count === 1 ? "" : "s"}.`
+          : "Inicia sesión para sincronizar tu historial.",
+      );
+    } catch {
+      setSyncMessage("No pudimos sincronizar todavía. Verifica que la base de datos esté preparada.");
+    } finally {
+      setIsSyncing(false);
+    }
+  }
 
   return (
     <main className="min-h-screen bg-slate-950 text-white">
@@ -36,6 +57,17 @@ export default function HistorialPage() {
         <p className="mt-4 max-w-2xl leading-7 text-slate-400">
           Conservamos los últimos resultados en este dispositivo. Cuando actives una cuenta, podrás sincronizarlos de forma segura.
         </p>
+        <div className="mt-5 flex flex-wrap items-center gap-3">
+          <button
+            type="button"
+            onClick={handleSync}
+            disabled={isSyncing}
+            className="rounded-xl border border-slate-700 px-4 py-2 text-sm font-semibold transition hover:bg-slate-800 disabled:cursor-wait disabled:opacity-60"
+          >
+            {isSyncing ? "Sincronizando..." : "Sincronizar con mi cuenta"}
+          </button>
+          {syncMessage && <p className="text-sm text-slate-400">{syncMessage}</p>}
+        </div>
 
         {history.length === 0 ? (
           <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900 p-8 text-center">

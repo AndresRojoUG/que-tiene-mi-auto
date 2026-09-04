@@ -69,6 +69,25 @@ export function getDiagnosticHistoryServerSnapshot() {
   return EMPTY_HISTORY;
 }
 
+export function mergeDiagnosticHistory(entries: DiagnosticHistoryEntry[]) {
+  if (typeof window === "undefined") return;
+
+  try {
+    const mergedById = new Map(
+      [...entries, ...readDiagnosticHistory()].map((entry) => [entry.id, entry]),
+    );
+    const merged = [...mergedById.values()]
+      .sort((first, second) => second.createdAt.localeCompare(first.createdAt))
+      .slice(0, MAX_HISTORY_ENTRIES);
+
+    localStorage.setItem(DIAGNOSTIC_HISTORY_STORAGE_KEY, JSON.stringify(merged));
+    lastStoredValue = undefined;
+    window.dispatchEvent(new Event(DIAGNOSTIC_HISTORY_CHANGED_EVENT));
+  } catch {
+    // A cloud sync must not prevent use of local diagnostic history.
+  }
+}
+
 export function saveDiagnosticHistory(
   entry: Omit<DiagnosticHistoryEntry, "id" | "createdAt">,
 ) {
