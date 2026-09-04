@@ -26,7 +26,11 @@ export default function AdminCommunityPage() {
     const { error } = await createClient().from(table).update({ status }).eq("id", id);
     if (error) { setMessage("No pudimos actualizar el contenido."); return; }
     const updateList = (items: Item[]) => items.map((item) => item.id === id ? { ...item, status } : item);
-    table === "community_questions" ? setQuestions(updateList) : setAnswers(updateList);
+    if (table === "community_questions") {
+      setQuestions(updateList);
+    } else {
+      setAnswers(updateList);
+    }
   }
 
   const renderItems = (items: Item[], table: "community_questions" | "community_answers") => items.map((item) => <article key={item.id} className="rounded-2xl border border-slate-800 bg-slate-900 p-5"><div className="flex flex-wrap items-center justify-between gap-3"><p className="text-sm font-bold text-sky-300">{item.status}</p><select value={item.status} onChange={(event) => void update(table, item.id, event.target.value as Item["status"])} className="rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm"><option value="pending">Pendiente</option><option value="published">Publicar</option><option value="hidden">Ocultar</option><option value="removed">Retirar</option></select></div>{item.title && <h2 className="mt-4 text-xl font-bold">{item.title}</h2>}<p className="mt-3 whitespace-pre-wrap leading-7 text-slate-200">{item.body}</p></article>);
