@@ -7,6 +7,8 @@ export type Fuse = {
   type: "MINI" | "ATO" | "MAXI";
   description: string;
   location: "interior" | "bateria";
+  /** Verified grid position for the interactive fuse-box diagram. */
+  position?: { row: number; column: number };
   verification: TechnicalDataVerification;
 };
 export const fuses: Fuse[] = [

@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { fuses } from "@/data/technical/fuses";
 import { getVehicleById, getVehicleSummary } from "@/data/vehicles";
 import DiagnosticGuide from "@/components/DiagnosticGuide";
+import InteractiveFusePanel from "@/components/InteractiveFusePanel";
 
 function FusiblesContent() {
   const router = useRouter();
@@ -22,6 +23,10 @@ function FusiblesContent() {
     (fuse) =>
       fuse.vehicleId === vehicleId && fuse.verification.status === "pending",
   );
+  const positionedFuses = vehicleFuses.filter(
+    (fuse): fuse is typeof fuse & { position: NonNullable<typeof fuse.position> } => Boolean(fuse.position),
+  );
+  const hasInteractiveDiagram = positionedFuses.length === vehicleFuses.length && positionedFuses.length > 0;
 
   const fromDiagnostic =
     searchParams.get("from") === "diagnostico";
@@ -99,6 +104,8 @@ function FusiblesContent() {
                 Volver
               </button>
             </div>
+          ) : hasInteractiveDiagram ? (
+            <InteractiveFusePanel fuses={positionedFuses} />
           ) : (
             vehicleFuses.map((fuse) => (
               <article
