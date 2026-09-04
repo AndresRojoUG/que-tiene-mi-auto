@@ -7,6 +7,7 @@ import { noArrancaDiagnostic } from "../data/diagnostics/no-arranca";
 import { seApagaDiagnostic } from "../data/diagnostics/se-apaga";
 import { seCalientaDiagnostic } from "../data/diagnostics/se-calienta";
 import { electricoDiagnostic } from "../data/diagnostics/electrico";
+import { luzTableroDiagnostic } from "../data/diagnostics/luz-tablero";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
@@ -130,6 +131,14 @@ const isolatedAccessory = runDiagnostic(electricoDiagnostic, "riesgo-electrico",
 assert.equal(isolatedAccessory.status, "result");
 if (isolatedAccessory.status === "result") {
   assert.equal(isolatedAccessory.resultId, "electrico-accesorio-aislado");
+}
+
+const flashingCheckEngine = runDiagnostic(luzTableroDiagnostic, "color-o-senal-tablero", {
+  "color-o-senal-tablero": "check-parpadeando",
+});
+assert.equal(flashingCheckEngine.status, "result");
+if (flashingCheckEngine.status === "result") {
+  assert.equal(flashingCheckEngine.resultId, "tablero-check-parpadeando");
 }
 
 console.log("Diagnostic engine tests passed.");

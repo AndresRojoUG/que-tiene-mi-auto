@@ -19,6 +19,48 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "tablero-riesgo-inmediato",
+    title: "Detente de forma segura y no ignores la advertencia",
+    summary: "Una luz roja o un mensaje para detenerse puede indicar una condición que requiere atención inmediata.",
+    safetyNotice: "Detente en un lugar seguro. No continúes si hay pérdida de potencia, temperatura alta, olor extraño, humo o una advertencia de frenos, aceite o dirección.",
+    possibleCauses: ["Condición de seguridad que requiere inspección", "Sistema que necesita atención antes de circular"],
+    recommendedChecks: ["Consultar el manual del vehículo para identificar el símbolo.", "Solicitar asistencia profesional si la advertencia permanece activa."],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "tablero-check-parpadeando",
+    title: "La luz de Check Engine parpadea",
+    summary: "Una luz parpadeando requiere atención más pronta que una luz fija. No permite identificar una pieza por sí sola.",
+    safetyNotice: "Reduce la marcha y detente si el motor funciona irregularmente, pierde potencia, vibra mucho o notas olor a combustible. Evita seguir conduciendo hasta una revisión.",
+    possibleCauses: ["Condición de motor que requiere diagnóstico", "Código de falla almacenado"],
+    recommendedChecks: ["Registrar cuándo apareció la luz.", "Solicitar lectura de códigos sin borrarlos."],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "tablero-check-fija",
+    title: "Conviene leer los códigos de falla",
+    summary: "Una luz de Check Engine fija indica que el sistema registró una condición. La luz por sí sola no confirma una causa concreta.",
+    possibleCauses: ["Código de falla almacenado", "Condición relacionada con emisiones, sensores o funcionamiento del motor"],
+    recommendedChecks: ["Leer códigos con un escáner compatible sin borrarlos.", "Registrar síntomas adicionales antes de pedir revisión."],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "tablero-advertencia-ambar",
+    title: "Identifica la advertencia antes de decidir",
+    summary: "Las luces ámbar suelen indicar que se requiere atención, pero el significado exacto depende de la marca, modelo y año.",
+    possibleCauses: ["Sistema que requiere consulta específica del vehículo", "Advertencia de mantenimiento o funcionamiento"],
+    recommendedChecks: ["Consultar el manual del vehículo para el símbolo exacto.", "Registrar el mensaje o tomar una foto cuando el auto esté detenido."],
+    difficulty: "Básico",
+  },
+  {
+    id: "tablero-identificar-luz",
+    title: "Necesitamos identificar el símbolo con certeza",
+    summary: "Sin el color y el símbolo exactos no es seguro orientar una causa o una acción.",
+    possibleCauses: ["Información insuficiente para clasificar la advertencia"],
+    recommendedChecks: ["Detenerse de forma segura si la luz es roja, parpadea o hay otro síntoma.", "Consultar el manual o tomar una foto del tablero detenido."],
+    difficulty: "Básico",
+  },
+  {
     id: "electrico-riesgo-inmediato",
     title: "No continúes manipulando el sistema eléctrico",
     summary:
