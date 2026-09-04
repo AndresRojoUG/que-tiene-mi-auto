@@ -45,6 +45,12 @@ function VehiculoContent() {
           >
             {t("diagnostic.selectVehicle")}
           </button>
+
+          <button type="button" onClick={() => router.push(`/vehiculo/comunidad?vehicle=${vehicle.id}`)} className="rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:-translate-y-1 hover:bg-slate-800">
+            <span className="text-3xl">💬</span>
+            <h2 className="mt-4 text-xl font-bold">Comunidad</h2>
+            <p className="mt-2 text-sm leading-6 text-slate-400">Comparte un problema y conoce experiencias de usuarios con este mismo vehículo.</p>
+          </button>
         </section>
       </main>
     );
