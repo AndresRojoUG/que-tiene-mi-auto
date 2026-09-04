@@ -11,9 +11,11 @@ import {
   getVehicleYears,
 } from "@/data/vehicles";
 import { saveSelectedVehicleId } from "@/lib/vehicles/session";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function SeleccionarVehiculoPage() {
   const router = useRouter();
+  const { t } = useLanguage();
 
   const [brand, setBrand] = useState("");
   const [model, setModel] = useState("");
@@ -91,21 +93,20 @@ export default function SeleccionarVehiculoPage() {
           onClick={() => router.back()}
           className="text-sm text-slate-400 transition hover:text-white"
         >
-          ← Volver
+          ← {t("common.back")}
         </button>
 
         <div className="mt-8">
           <p className="text-sm font-medium text-slate-400">
-            Configura tu vehículo
+            {t("vehicle.setup")}
           </p>
 
           <h1 className="mt-2 text-4xl font-bold">
-            ¿Qué vehículo tienes?
+            {t("vehicle.question")}
           </h1>
 
           <p className="mt-4 leading-7 text-slate-400">
-            Selecciona los datos de tu vehículo para mostrar
-            información y diagnósticos específicos.
+            {t("vehicle.description")}
           </p>
         </div>
 
@@ -114,7 +115,7 @@ export default function SeleccionarVehiculoPage() {
           {/* Marca */}
           <div>
             <label className="mb-2 block text-sm font-medium">
-              1. Marca
+              1. {t("vehicle.brand")}
             </label>
 
             <select
@@ -125,7 +126,7 @@ export default function SeleccionarVehiculoPage() {
               className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 text-white outline-none focus:border-white"
             >
               <option value="">
-                Selecciona una marca
+                {t("vehicle.selectBrand")}
               </option>
 
               {brands.map((item) => (
@@ -140,7 +141,7 @@ export default function SeleccionarVehiculoPage() {
           {brand && (
             <div>
               <label className="mb-2 block text-sm font-medium">
-                2. Modelo
+                2. {t("vehicle.model")}
               </label>
 
               <select
@@ -151,7 +152,7 @@ export default function SeleccionarVehiculoPage() {
                 className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 text-white outline-none focus:border-white"
               >
                 <option value="">
-                  Selecciona un modelo
+                  {t("vehicle.selectModel")}
                 </option>
 
                 {models.map((item) => (
@@ -167,7 +168,7 @@ export default function SeleccionarVehiculoPage() {
           {model && (
             <div>
               <label className="mb-2 block text-sm font-medium">
-                3. Generación
+                3. {t("vehicle.generation")}
               </label>
 
               <select
@@ -178,7 +179,7 @@ export default function SeleccionarVehiculoPage() {
                 className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 text-white outline-none focus:border-white"
               >
                 <option value="">
-                  Selecciona una generación
+                  {t("vehicle.selectGeneration")}
                 </option>
 
                 {generations.map((item) => (
@@ -194,7 +195,7 @@ export default function SeleccionarVehiculoPage() {
           {generation && (
             <div>
               <label className="mb-2 block text-sm font-medium">
-                4. Año
+                4. {t("vehicle.year")}
               </label>
 
               <select
@@ -205,7 +206,7 @@ export default function SeleccionarVehiculoPage() {
                 className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 text-white outline-none focus:border-white"
               >
                 <option value="">
-                  Selecciona un año
+                  {t("vehicle.selectYear")}
                 </option>
 
                 {years.map((item) => (
@@ -221,7 +222,7 @@ export default function SeleccionarVehiculoPage() {
           {year && (
             <div>
               <label className="mb-2 block text-sm font-medium">
-                5. Motor
+                5. {t("vehicle.engine")}
               </label>
 
               <select
@@ -232,7 +233,7 @@ export default function SeleccionarVehiculoPage() {
                 className="w-full rounded-xl border border-slate-800 bg-slate-900 px-4 py-4 text-white outline-none focus:border-white"
               >
                 <option value="">
-                  Selecciona un motor
+                  {t("vehicle.selectEngine")}
                 </option>
 
                 {engines.map((item) => (
@@ -251,7 +252,7 @@ export default function SeleccionarVehiculoPage() {
           <div className="mt-10 rounded-3xl border border-slate-800 bg-slate-900 p-6">
 
             <p className="text-sm text-slate-400">
-              Vehículo seleccionado
+              {t("vehicle.selected")}
             </p>
 
             <h2 className="mt-2 text-2xl font-bold">
@@ -269,7 +270,7 @@ export default function SeleccionarVehiculoPage() {
               onClick={handleContinue}
               className="mt-6 w-full rounded-xl bg-white px-5 py-4 font-semibold text-slate-950 transition hover:bg-slate-200"
             >
-              Continuar con este vehículo →
+              {t("vehicle.continueWith")} →
             </button>
 
           </div>
