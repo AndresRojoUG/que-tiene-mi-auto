@@ -58,7 +58,23 @@ type TranslationKey =
   | "diagnostic.problemStep"
   | "diagnostic.problemQuestion"
   | "diagnostic.problemDescription"
-  | "diagnostic.loading";
+  | "diagnostic.loading"
+  | "myVehicle.notFound"
+  | "myVehicle.notFoundDescription"
+  | "myVehicle.title"
+  | "myVehicle.diagnosisTitle"
+  | "myVehicle.diagnosisDescription"
+  | "myVehicle.fusesTitle"
+  | "myVehicle.fusesDescription"
+  | "myVehicle.comingSoon"
+  | "myVehicle.relaysTitle"
+  | "myVehicle.relaysDescription"
+  | "myVehicle.obdTitle"
+  | "myVehicle.obdDescription"
+  | "myVehicle.maintenanceTitle"
+  | "myVehicle.maintenanceDescription"
+  | "myVehicle.technicalTitle"
+  | "myVehicle.technicalDescription";
 
 type Translations = Record<TranslationKey, string>;
 
@@ -118,6 +134,22 @@ export const translations: Record<Locale, Translations> = {
     "diagnostic.problemQuestion": "¿Qué problema tiene tu auto?",
     "diagnostic.problemDescription": "Selecciona el problema que más se parezca a lo que estás experimentando.",
     "diagnostic.loading": "Cargando diagnóstico...",
+    "myVehicle.notFound": "Vehículo no encontrado",
+    "myVehicle.notFoundDescription": "No pudimos encontrar el vehículo seleccionado.",
+    "myVehicle.title": "Mi vehículo",
+    "myVehicle.diagnosisTitle": "Diagnóstico",
+    "myVehicle.diagnosisDescription": "Descubre qué puede estar causando el problema de tu vehículo.",
+    "myVehicle.fusesTitle": "Fusibles",
+    "myVehicle.fusesDescription": "Consulta fusibles, ubicaciones y procedimientos de comprobación.",
+    "myVehicle.comingSoon": "Próximamente",
+    "myVehicle.relaysTitle": "Relevadores",
+    "myVehicle.relaysDescription": "Consulta información de relevadores y circuitos.",
+    "myVehicle.obdTitle": "OBD",
+    "myVehicle.obdDescription": "Consulta códigos y aprende a interpretar problemas de diagnóstico.",
+    "myVehicle.maintenanceTitle": "Mantenimiento",
+    "myVehicle.maintenanceDescription": "Servicios, revisiones y mantenimiento recomendado.",
+    "myVehicle.technicalTitle": "Información técnica",
+    "myVehicle.technicalDescription": "Consulta información técnica relacionada con este vehículo.",
   },
   en: {
     "language.es": "Español",
@@ -174,6 +206,22 @@ export const translations: Record<Locale, Translations> = {
     "diagnostic.problemQuestion": "What problem does your car have?",
     "diagnostic.problemDescription": "Select the problem that most resembles what you are experiencing.",
     "diagnostic.loading": "Loading diagnosis...",
+    "myVehicle.notFound": "Vehicle not found",
+    "myVehicle.notFoundDescription": "We could not find the selected vehicle.",
+    "myVehicle.title": "My vehicle",
+    "myVehicle.diagnosisTitle": "Diagnosis",
+    "myVehicle.diagnosisDescription": "Find out what may be causing your vehicle’s problem.",
+    "myVehicle.fusesTitle": "Fuses",
+    "myVehicle.fusesDescription": "View fuses, locations, and checking procedures.",
+    "myVehicle.comingSoon": "Coming soon",
+    "myVehicle.relaysTitle": "Relays",
+    "myVehicle.relaysDescription": "View relay and circuit information.",
+    "myVehicle.obdTitle": "OBD",
+    "myVehicle.obdDescription": "View codes and learn to interpret diagnostic issues.",
+    "myVehicle.maintenanceTitle": "Maintenance",
+    "myVehicle.maintenanceDescription": "Services, inspections, and recommended maintenance.",
+    "myVehicle.technicalTitle": "Technical information",
+    "myVehicle.technicalDescription": "View technical information related to this vehicle.",
   },
 };
 

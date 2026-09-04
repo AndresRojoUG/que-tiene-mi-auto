@@ -9,12 +9,14 @@ import {
   getVehicleSummary,
 } from "@/data/vehicles";
 import { saveSelectedVehicleId } from "@/lib/vehicles/session";
+import { useLanguage } from "@/components/LanguageProvider";
 
 function VehiculoContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const vehicleId = searchParams.get("id");
+  const { t } = useLanguage();
 
   const vehicle = getVehicleById(vehicleId);
 
@@ -27,11 +29,11 @@ function VehiculoContent() {
       <main className="min-h-screen bg-slate-950 text-white">
         <section className="mx-auto max-w-4xl px-6 py-16">
           <h1 className="text-3xl font-bold">
-            Vehículo no encontrado
+            {t("myVehicle.notFound")}
           </h1>
 
           <p className="mt-4 text-slate-400">
-            No pudimos encontrar el vehículo seleccionado.
+            {t("myVehicle.notFoundDescription")}
           </p>
 
           <button
@@ -41,7 +43,7 @@ function VehiculoContent() {
             }
             className="mt-8 rounded-xl bg-white px-5 py-3 font-semibold text-slate-950"
           >
-            Seleccionar vehículo
+            {t("diagnostic.selectVehicle")}
           </button>
         </section>
       </main>
@@ -57,13 +59,13 @@ function VehiculoContent() {
           onClick={() => router.back()}
           className="text-sm text-slate-400 transition hover:text-white"
         >
-          ← Volver
+          ← {t("common.back")}
         </button>
 
         {/* Vehículo */}
         <div className="mt-8">
           <p className="text-sm font-medium text-slate-400">
-            Mi vehículo
+            {t("myVehicle.title")}
           </p>
 
           <h1 className="mt-2 text-4xl font-bold">
@@ -92,12 +94,11 @@ function VehiculoContent() {
             </span>
 
             <h2 className="mt-4 text-xl font-bold">
-              Diagnóstico
+              {t("myVehicle.diagnosisTitle")}
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Descubre qué puede estar causando el problema
-              de tu vehículo.
+              {t("myVehicle.diagnosisDescription")}
             </p>
           </button>
 
@@ -115,18 +116,17 @@ function VehiculoContent() {
             </span>
 
             <h2 className="mt-4 text-xl font-bold">
-              Fusibles
+              {t("myVehicle.fusesTitle")}
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Consulta fusibles, ubicaciones y procedimientos
-              de comprobación.
+              {t("myVehicle.fusesDescription")}
             </p>
           </button>
 
           <div className="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left opacity-75">
             <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">
-              Próximamente
+              {t("myVehicle.comingSoon")}
             </span>
 
             <span className="text-3xl">
@@ -134,17 +134,17 @@ function VehiculoContent() {
             </span>
 
             <h2 className="mt-4 text-xl font-bold">
-              Relevadores
+              {t("myVehicle.relaysTitle")}
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Consulta información de relevadores y circuitos.
+              {t("myVehicle.relaysDescription")}
             </p>
           </div>
 
           <div className="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left opacity-75">
             <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">
-              Próximamente
+              {t("myVehicle.comingSoon")}
             </span>
 
             <span className="text-3xl">
@@ -156,13 +156,13 @@ function VehiculoContent() {
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Consulta códigos y aprende a interpretar problemas de diagnóstico.
+              {t("myVehicle.obdDescription")}
             </p>
           </div>
 
           <div className="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left opacity-75">
             <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">
-              Próximamente
+              {t("myVehicle.comingSoon")}
             </span>
 
             <span className="text-3xl">
@@ -170,17 +170,17 @@ function VehiculoContent() {
             </span>
 
             <h2 className="mt-4 text-xl font-bold">
-              Mantenimiento
+              {t("myVehicle.maintenanceTitle")}
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Servicios, revisiones y mantenimiento recomendado.
+              {t("myVehicle.maintenanceDescription")}
             </p>
           </div>
 
           <div className="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left opacity-75">
             <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">
-              Próximamente
+              {t("myVehicle.comingSoon")}
             </span>
 
             <span className="text-3xl">
@@ -188,11 +188,11 @@ function VehiculoContent() {
             </span>
 
             <h2 className="mt-4 text-xl font-bold">
-              Información técnica
+              {t("myVehicle.technicalTitle")}
             </h2>
 
             <p className="mt-2 text-sm leading-6 text-slate-400">
-              Consulta información técnica relacionada con este vehículo.
+              {t("myVehicle.technicalDescription")}
             </p>
           </div>
 
