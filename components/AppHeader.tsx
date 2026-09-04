@@ -55,6 +55,12 @@ export default function AppHeader() {
             Historial
           </Link>
           <Link
+            href="/sugerencias"
+            className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white lg:inline-flex"
+          >
+            Sugerencias
+          </Link>
+          <Link
             href="/cuenta"
             className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
           >
