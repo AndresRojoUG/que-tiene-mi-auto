@@ -26,7 +26,14 @@ export default function AdminSuggestionsPage() {
   useEffect(() => {
     async function load() {
       try {
-        const { data, error } = await createClient()
+        const supabase = createClient();
+        const { data: isAdmin, error: roleError } = await supabase.rpc("is_admin");
+        if (roleError || !isAdmin) {
+          setMessage("No tienes permisos para ver el panel de administración.");
+          return;
+        }
+
+        const { data, error } = await supabase
           .from("product_feedback")
           .select("id, category, message, status, created_at")
           .order("created_at", { ascending: false });
@@ -34,7 +41,7 @@ export default function AdminSuggestionsPage() {
         setItems((data ?? []) as Feedback[]);
         setMessage("");
       } catch {
-        setMessage("No tienes acceso a este panel o aún no está configurado.");
+        setMessage("No pudimos cargar el panel de administración.");
       }
     }
     void load();
