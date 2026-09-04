@@ -4,6 +4,8 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { getDiagnosticDefinition } from "@/data/diagnostics";
 import { runDiagnostic } from "@/data/diagnostics/engine";
 import { diagnosticResults } from "@/data/diagnostics/results";
+import { localizeDiagnosticResult } from "@/data/diagnostics/localization";
+import { useLanguage } from "@/components/LanguageProvider";
 import {
   clearDiagnosticAnswers,
   readDiagnosticAnswers,
@@ -17,6 +19,7 @@ function ResultadoContent() {
   const resultId = searchParams.get("result");
   const vehicleId = searchParams.get("vehicle");
   const problemId = searchParams.get("problem") || "no-arranca";
+  const { locale } = useLanguage();
   const answers = readDiagnosticAnswers(problemId, vehicleId);
   const diagnostic = getDiagnosticDefinition(problemId, vehicleId ?? undefined);
   const state = diagnostic
@@ -27,10 +30,11 @@ function ResultadoContent() {
       )
     : null;
 
-  const result =
+  const rawResult =
     state?.status === "result" && state.resultId === resultId
       ? diagnosticResults.find((item) => item.id === resultId)
       : undefined;
+  const result = rawResult ? localizeDiagnosticResult(rawResult, locale) : undefined;
 
   if (!result) {
     return (

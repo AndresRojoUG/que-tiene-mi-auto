@@ -1,5 +1,6 @@
 import type { Locale } from "@/lib/i18n/translations";
 import type { DiagnosticQuestion } from "./types";
+import type { DiagnosticResult } from "./results";
 
 type QuestionTranslation = {
   question: string;
@@ -47,4 +48,21 @@ export function localizeQuestions(questions: DiagnosticQuestion[], locale: Local
       })),
     };
   });
+}
+
+const englishResultTranslations: Record<string, Partial<DiagnosticResult>> = {
+  "ruido-riesgo-inmediato": { title: "Prioritize stopping safely", summary: "A loud impact, continuous rubbing, or abnormal changes in brakes or steering can compromise driving safety.", safetyNotice: "Stop in a safe place. Do not continue if the vehicle does not brake, steer, or respond predictably, or if the noise is loud and sudden.", possibleCauses: ["Mechanical or safety condition requiring inspection", "A component that cannot be identified by sound alone"], recommendedChecks: ["Request assistance or professional inspection before driving again.", "Record when the noise appeared without approaching moving components."] },
+  "ruido-requiere-revision-pronta": { title: "Have the vehicle checked before putting it under load", summary: "Engine noise together with a warning or intense vibration requires diagnosis; sound does not confirm a specific part.", safetyNotice: "Stop if a red warning, smoke, burning smell, or power loss appears. Do not accelerate to try to identify the source.", possibleCauses: ["Engine condition requiring diagnosis", "System with a recorded fault or pending inspection"], recommendedChecks: ["Record dashboard lights or messages.", "Request a code scan without clearing codes and schedule an inspection."] },
+  "ruido-en-movimiento": { title: "Record the conditions in which the noise occurs", summary: "A noise while driving can come from different systems. Inspection is needed to determine its source with certainty.", possibleCauses: ["Wheel, brake, suspension, or driveline condition requiring inspection", "An external or body element needing inspection"], recommendedChecks: ["Record whether it occurs while braking, turning, going over a bump, or at a certain speed, without provoking maneuvers.", "Schedule an inspection if it repeats or increases."] },
+  "ruido-informacion-insuficiente": { title: "We need to identify the noise pattern more clearly", summary: "There is not enough information to safely point to a specific cause.", possibleCauses: ["Insufficient information to classify the noise"], recommendedChecks: ["Record when it happens and whether dashboard lights or messages appear.", "Stop if the noise is sudden, very loud, or affects steering, brakes, or the engine."] },
+  "tironeo-riesgo-inmediato": { title: "Do not continue if the vehicle is severely losing performance", summary: "Jerking together with a red warning, flashing light, or major power loss requires attention before driving further.", safetyNotice: "Stop in a safe place. Avoid driving if the car does not respond predictably, the engine vibrates intensely, or smoke appears.", possibleCauses: ["Engine condition requiring diagnosis", "System fault that should be checked before driving"], recommendedChecks: ["Record dashboard lights or messages.", "Request a code scan without clearing codes."] },
+  "tironeo-al-acelerar": { title: "The symptom appears when acceleration is requested", summary: "This pattern may involve different systems, but it does not confirm a cause without inspection and vehicle data.", possibleCauses: ["Fuel, air, ignition, or engine-control condition", "Stored fault code"], recommendedChecks: ["Record the speed range or conditions in which it occurs.", "Check fault codes with a compatible scanner.", "Schedule an inspection if it repeats."] },
+  "tironeo-ralenti": { title: "Irregular operation occurs at idle", summary: "An engine running unevenly while stopped can have several causes. A part cannot be identified from this symptom alone.", possibleCauses: ["Intake, ignition, or idle-control condition", "Sensor reading requiring diagnosis"], recommendedChecks: ["Observe the symptom with the vehicle stationary and parking brake applied.", "Check fault codes if a warning is present."] },
+  "tironeo-informacion-insuficiente": { title: "We need to identify the pattern more clearly", summary: "There is not enough information to safely point to a specific cause.", possibleCauses: ["Insufficient information to classify the irregular operation"], recommendedChecks: ["Record whether it occurs cold, warm, while accelerating, or while stopping.", "Stop if red warnings, smoke, or major power loss appear."] },
+};
+
+export function localizeDiagnosticResult(result: DiagnosticResult, locale: Locale) {
+  if (locale !== "en") return result;
+
+  return { ...result, ...englishResultTranslations[result.id] };
 }
