@@ -19,6 +19,39 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "tironeo-riesgo-inmediato",
+    title: "No continúes si el vehículo pierde funcionamiento de forma intensa",
+    summary: "Tirones junto con una advertencia roja, una luz parpadeando o pérdida fuerte de potencia requieren atención antes de seguir circulando.",
+    safetyNotice: "Detente en un lugar seguro. Evita conducir si el auto no responde de forma predecible, el motor vibra intensamente o aparece humo.",
+    possibleCauses: ["Condición de motor que requiere diagnóstico", "Sistema con una falla que debe revisarse antes de circular"],
+    recommendedChecks: ["Registrar las luces o mensajes del tablero.", "Solicitar lectura de códigos sin borrarlos."],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "tironeo-al-acelerar",
+    title: "El síntoma aparece al pedir aceleración",
+    summary: "Este patrón puede estar relacionado con distintos sistemas, pero no confirma una causa sin una revisión y datos del vehículo.",
+    possibleCauses: ["Condición de combustible, aire, encendido o control del motor", "Código de falla almacenado"],
+    recommendedChecks: ["Anotar el rango de velocidad o condiciones en que ocurre.", "Consultar códigos de falla con un escáner compatible.", "Programar una revisión si se repite."],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "tironeo-ralenti",
+    title: "El funcionamiento irregular aparece en ralentí",
+    summary: "Un motor irregular detenido puede tener varias causas. No es posible identificar una pieza con este síntoma solamente.",
+    possibleCauses: ["Condición de admisión, encendido o control de ralentí", "Lectura de sensor que requiere diagnóstico"],
+    recommendedChecks: ["Observar el síntoma con el vehículo inmovilizado y freno de estacionamiento aplicado.", "Consultar códigos de falla si hay una advertencia."],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "tironeo-informacion-insuficiente",
+    title: "Necesitamos identificar mejor el patrón",
+    summary: "No hay información suficiente para orientar una causa específica con seguridad.",
+    possibleCauses: ["Información insuficiente para clasificar el funcionamiento irregular"],
+    recommendedChecks: ["Registrar si ocurre en frío, caliente, al acelerar o al detenerse.", "Detenerse si aparecen advertencias rojas, humo o pérdida fuerte de potencia."],
+    difficulty: "Básico",
+  },
+  {
     id: "potencia-riesgo-inmediato",
     title: "Prioriza detenerte de forma segura",
     summary: "Una pérdida repentina de potencia junto con humo o una advertencia roja puede afectar la capacidad de circular con seguridad.",

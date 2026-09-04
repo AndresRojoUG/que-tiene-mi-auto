@@ -10,6 +10,7 @@ import { electricoDiagnostic } from "../data/diagnostics/electrico";
 import { luzTableroDiagnostic } from "../data/diagnostics/luz-tablero";
 import { fugaDiagnostic } from "../data/diagnostics/fuga";
 import { pierdePotenciaDiagnostic } from "../data/diagnostics/pierde-potencia";
+import { tironeaDiagnostic } from "../data/diagnostics/tironea";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
@@ -157,6 +158,14 @@ const suddenPowerLoss = runDiagnostic(pierdePotenciaDiagnostic, "momento-perdida
 assert.equal(suddenPowerLoss.status, "result");
 if (suddenPowerLoss.status === "result") {
   assert.equal(suddenPowerLoss.resultId, "potencia-riesgo-inmediato");
+}
+
+const jerkingAtIdle = runDiagnostic(tironeaDiagnostic, "cuando-tironea", {
+  "cuando-tironea": "ralenti-o-detenerme",
+});
+assert.equal(jerkingAtIdle.status, "result");
+if (jerkingAtIdle.status === "result") {
+  assert.equal(jerkingAtIdle.resultId, "tironeo-ralenti");
 }
 
 console.log("Diagnostic engine tests passed.");

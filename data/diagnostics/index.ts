@@ -2,6 +2,7 @@ import { electricoDiagnostic } from "./electrico";
 import { luzTableroDiagnostic } from "./luz-tablero";
 import { fugaDiagnostic } from "./fuga";
 import { pierdePotenciaDiagnostic } from "./pierde-potencia";
+import { tironeaDiagnostic } from "./tironea";
 import { noArrancaDiagnostic } from "./no-arranca";
 import { seApagaDiagnostic } from "./se-apaga";
 import { seCalientaDiagnostic } from "./se-calienta";
@@ -14,6 +15,11 @@ export type { DiagnosticDefinition } from "./types";
  * New problems should be added here instead of creating special cases in the UI.
  */
 export const diagnosticDefinitions: DiagnosticDefinition[] = [
+  {
+    problemId: "tironea",
+    startQuestionId: "cuando-tironea",
+    questions: tironeaDiagnostic,
+  },
   {
     problemId: "pierde-potencia",
     startQuestionId: "momento-perdida-potencia",
