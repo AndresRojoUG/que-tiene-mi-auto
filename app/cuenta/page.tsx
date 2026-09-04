@@ -3,6 +3,7 @@
 import { FormEvent, Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type Mode = "sign-in" | "sign-up";
 
@@ -16,6 +17,11 @@ function CuentaContent() {
   const [notice, setNotice] = useState<string>();
   const [error, setError] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { locale } = useLanguage();
+  const isEnglish = locale === "en";
+  const copy = isEnglish
+    ? { account: "Account", active: "Active session", email: "Account email", signOut: "Sign out", signIn: "Sign in", create: "Create your account", intro: "Save your history and participate in the community when these features are enabled.", password: "Password", minimum: "Minimum 8 characters.", processing: "Processing...", switchToCreate: "Don’t have an account? Create one", switchToSignIn: "Already have an account? Sign in", loading: "Loading account..." }
+    : { account: "Cuenta", active: "Sesión activa", email: "Correo de la cuenta", signOut: "Cerrar sesión", signIn: "Iniciar sesión", create: "Crea tu cuenta", intro: "Guarda tu historial y participa en la comunidad cuando estas funciones estén activas.", password: "Contraseña", minimum: "Mínimo 8 caracteres.", processing: "Procesando...", switchToCreate: "¿No tienes cuenta? Crear cuenta", switchToSignIn: "¿Ya tienes cuenta? Iniciar sesión", loading: "Cargando cuenta..." };
 
   useEffect(() => {
     let mounted = true;
@@ -120,10 +126,10 @@ function CuentaContent() {
     return (
       <main className="min-h-screen bg-slate-950 text-white">
         <section className="mx-auto max-w-xl px-5 py-10 sm:px-8 sm:py-16">
-          <p className="text-sm font-medium text-sky-300">Tu cuenta</p>
-          <h1 className="mt-2 text-4xl font-black tracking-tight">Sesión activa</h1>
+          <p className="text-sm font-medium text-sky-300">{copy.account}</p>
+          <h1 className="mt-2 text-4xl font-black tracking-tight">{copy.active}</h1>
           <div className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6">
-            <p className="text-sm text-slate-400">Correo de la cuenta</p>
+            <p className="text-sm text-slate-400">{copy.email}</p>
             <p className="mt-2 break-all text-lg font-semibold">{accountEmail}</p>
             {displayedNotice && <p className="mt-4 text-sm text-emerald-300">{displayedNotice}</p>}
             {displayedError && <p role="alert" className="mt-4 text-sm text-rose-300">{displayedError}</p>}
@@ -132,7 +138,7 @@ function CuentaContent() {
               onClick={handleSignOut}
               className="mt-6 rounded-xl border border-slate-700 px-5 py-3 font-semibold transition hover:bg-slate-800"
             >
-              Cerrar sesión
+              {copy.signOut}
             </button>
           </div>
         </section>
@@ -143,17 +149,17 @@ function CuentaContent() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-xl px-5 py-10 sm:px-8 sm:py-16">
-        <p className="text-sm font-medium text-sky-300">Cuenta</p>
+        <p className="text-sm font-medium text-sky-300">{copy.account}</p>
         <h1 className="mt-2 text-4xl font-black tracking-tight">
-          {mode === "sign-in" ? "Inicia sesión" : "Crea tu cuenta"}
+          {mode === "sign-in" ? copy.signIn : copy.create}
         </h1>
         <p className="mt-4 leading-7 text-slate-400">
-          Guarda tu historial y participa en la comunidad cuando estas funciones estén activas.
+          {copy.intro}
         </p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-3xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
           <label className="block">
-            <span className="text-sm font-semibold">Correo electrónico</span>
+            <span className="text-sm font-semibold">Email</span>
             <input
               type="email"
               autoComplete="email"
@@ -164,7 +170,7 @@ function CuentaContent() {
             />
           </label>
           <label className="block">
-            <span className="text-sm font-semibold">Contraseña</span>
+            <span className="text-sm font-semibold">{copy.password}</span>
             <input
               type="password"
               autoComplete={mode === "sign-in" ? "current-password" : "new-password"}
@@ -174,7 +180,7 @@ function CuentaContent() {
               onChange={(event) => setPassword(event.target.value)}
               className="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-sky-400"
             />
-            <span className="mt-2 block text-xs text-slate-500">Mínimo 8 caracteres.</span>
+            <span className="mt-2 block text-xs text-slate-500">{copy.minimum}</span>
           </label>
 
           {displayedNotice && <p className="rounded-xl bg-emerald-400/10 p-3 text-sm text-emerald-200">{displayedNotice}</p>}
@@ -185,7 +191,7 @@ function CuentaContent() {
             disabled={isSubmitting}
             className="w-full rounded-xl bg-sky-400 px-5 py-3.5 font-bold text-slate-950 transition hover:bg-sky-300 disabled:cursor-wait disabled:opacity-60"
           >
-            {isSubmitting ? "Procesando..." : mode === "sign-in" ? "Iniciar sesión" : "Crear cuenta"}
+            {isSubmitting ? copy.processing : mode === "sign-in" ? copy.signIn : copy.create}
           </button>
         </form>
 
@@ -198,7 +204,7 @@ function CuentaContent() {
           }}
           className="mt-6 text-sm font-semibold text-sky-300 hover:text-sky-200"
         >
-          {mode === "sign-in" ? "¿No tienes cuenta? Crear cuenta" : "¿Ya tienes cuenta? Iniciar sesión"}
+          {mode === "sign-in" ? copy.switchToCreate : copy.switchToSignIn}
         </button>
       </section>
     </main>
