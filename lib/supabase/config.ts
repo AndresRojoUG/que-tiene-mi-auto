@@ -11,6 +11,10 @@ export function getSupabaseConfig(): SupabaseConfig | undefined {
   return { url, publishableKey };
 }
 
+export function isSupabaseConfigured() {
+  return Boolean(getSupabaseConfig());
+}
+
 export function requireSupabaseConfig(): SupabaseConfig {
   const config = getSupabaseConfig();
   if (!config) {

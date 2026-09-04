@@ -35,9 +35,10 @@ function CuentaContent() {
     };
   }, []);
 
-  const callbackNotice =
-    searchParams.get("confirmed") === "1"
-      ? "Tu correo fue confirmado. Tu cuenta ya está lista."
+  const callbackNotice = searchParams.get("confirmed") === "1"
+    ? "Tu correo fue confirmado. Tu cuenta ya está lista."
+    : searchParams.get("expired") === "1"
+      ? "Por seguridad, cerramos tu sesión después de 30 minutos sin actividad."
       : undefined;
   const callbackError = searchParams.get("error")
     ? "No pudimos confirmar el correo. Solicita un nuevo registro e inténtalo otra vez."

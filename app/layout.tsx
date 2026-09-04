@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import AppHeader from "@/components/AppHeader";
+import SessionActivityGuard from "@/components/SessionActivityGuard";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -46,14 +47,16 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="es-MX" className="h-full antialiased">
       <body className="min-h-full bg-[var(--background)] text-[var(--foreground)]">
-        <AppHeader />
-        {children}
-        <footer className="border-t border-white/10 bg-slate-950/60">
-          <div className="mx-auto max-w-6xl px-5 py-6 text-center text-xs leading-5 text-slate-500 sm:px-8 sm:text-left lg:px-10">
-            Diagnóstico orientativo. Ante una falla que comprometa la seguridad,
-            detén el vehículo en un lugar seguro y busca apoyo profesional.
-          </div>
-        </footer>
+        <SessionActivityGuard>
+          <AppHeader />
+          {children}
+          <footer className="border-t border-white/10 bg-slate-950/60">
+            <div className="mx-auto max-w-6xl px-5 py-6 text-center text-xs leading-5 text-slate-500 sm:px-8 sm:text-left lg:px-10">
+              Diagnóstico orientativo. Ante una falla que comprometa la seguridad,
+              detén el vehículo en un lugar seguro y busca apoyo profesional.
+            </div>
+          </footer>
+        </SessionActivityGuard>
       </body>
     </html>
   );
