@@ -9,6 +9,7 @@ import { seCalientaDiagnostic } from "../data/diagnostics/se-calienta";
 import { electricoDiagnostic } from "../data/diagnostics/electrico";
 import { luzTableroDiagnostic } from "../data/diagnostics/luz-tablero";
 import { fugaDiagnostic } from "../data/diagnostics/fuga";
+import { pierdePotenciaDiagnostic } from "../data/diagnostics/pierde-potencia";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
@@ -148,6 +149,14 @@ const fuelLeakRisk = runDiagnostic(fugaDiagnostic, "tipo-de-fuga", {
 assert.equal(fuelLeakRisk.status, "result");
 if (fuelLeakRisk.status === "result") {
   assert.equal(fuelLeakRisk.resultId, "fuga-riesgo-inmediato");
+}
+
+const suddenPowerLoss = runDiagnostic(pierdePotenciaDiagnostic, "momento-perdida-potencia", {
+  "momento-perdida-potencia": "advertencia-o-humo",
+});
+assert.equal(suddenPowerLoss.status, "result");
+if (suddenPowerLoss.status === "result") {
+  assert.equal(suddenPowerLoss.resultId, "potencia-riesgo-inmediato");
 }
 
 console.log("Diagnostic engine tests passed.");

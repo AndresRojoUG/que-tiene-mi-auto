@@ -19,6 +19,39 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "potencia-riesgo-inmediato",
+    title: "Prioriza detenerte de forma segura",
+    summary: "Una pérdida repentina de potencia junto con humo o una advertencia roja puede afectar la capacidad de circular con seguridad.",
+    safetyNotice: "No intentes compensar acelerando. Detente en un lugar seguro y solicita asistencia si el síntoma persiste, hay humo o aparece una advertencia roja.",
+    possibleCauses: ["Condición que requiere inspección antes de circular", "Sistema de motor o seguridad con funcionamiento anormal"],
+    recommendedChecks: ["Registrar las luces o mensajes del tablero.", "Solicitar una revisión profesional antes de volver a circular si la potencia sigue limitada."],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "potencia-bajo-carga",
+    title: "La pérdida aparece cuando el motor necesita más esfuerzo",
+    summary: "El patrón puede orientar una revisión, pero no confirma una causa sin datos del vehículo y códigos de falla.",
+    possibleCauses: ["Condición de admisión, combustible, encendido o escape", "Lectura de sensor o control del motor que requiere diagnóstico"],
+    recommendedChecks: ["Registrar si hay luz de Check Engine o mensajes en el tablero.", "Solicitar lectura de códigos sin borrarlos.", "Evitar remolcar o exigir el vehículo hasta revisarlo."],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "potencia-requiere-revision",
+    title: "Conviene programar una revisión del funcionamiento del motor",
+    summary: "Una pérdida constante de potencia puede tener distintas causas. Se necesita información adicional antes de señalar una pieza.",
+    possibleCauses: ["Condición de mantenimiento o funcionamiento del motor", "Código de falla almacenado"],
+    recommendedChecks: ["Anotar cuándo comenzó y si aumenta el consumo de combustible.", "Consultar códigos de falla con un escáner compatible.", "Programar una revisión si el síntoma continúa."],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "potencia-informacion-insuficiente",
+    title: "Necesitamos observar mejor el patrón de la pérdida",
+    summary: "No hay información suficiente para orientar una causa específica de forma segura.",
+    possibleCauses: ["Información insuficiente para clasificar el síntoma"],
+    recommendedChecks: ["Registrar si ocurre en frío, caliente, con aire acondicionado o en pendientes.", "Detenerse si aparece una advertencia roja o humo."],
+    difficulty: "Básico",
+  },
+  {
     id: "fuga-riesgo-inmediato",
     title: "No continúes hasta evaluar la condición con seguridad",
     summary: "Humo, olor fuerte a combustible, vapor o una advertencia roja pueden indicar una condición que necesita atención inmediata.",
