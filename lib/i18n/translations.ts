@@ -14,6 +14,7 @@ type TranslationKey =
   | "nav.myVehicle"
   | "nav.diagnose"
   | "nav.home"
+  | "nav.menu"
   | "footer.safety"
   | "footer.feedback"
   | "home.badge"
@@ -89,6 +90,7 @@ export const translations: Record<Locale, Translations> = {
     "nav.myVehicle": "Mi auto",
     "nav.diagnose": "Diagnosticar",
     "nav.home": "¿Qué tiene mi auto? — Inicio",
+    "nav.menu": "Menú",
     "footer.safety": "Diagnóstico orientativo. Ante una falla que comprometa la seguridad, detén el vehículo en un lugar seguro y busca apoyo profesional.",
     "footer.feedback": "Enviar sugerencia",
     "home.badge": "Diagnóstico automotriz guiado",
@@ -161,6 +163,7 @@ export const translations: Record<Locale, Translations> = {
     "nav.myVehicle": "My vehicle",
     "nav.diagnose": "Diagnose",
     "nav.home": "What’s wrong with my car? — Home",
+    "nav.menu": "Menu",
     "footer.safety": "This diagnostic is for guidance only. If a fault could compromise safety, stop the vehicle in a safe place and seek professional assistance.",
     "footer.feedback": "Send feedback",
     "home.badge": "Guided automotive diagnosis",

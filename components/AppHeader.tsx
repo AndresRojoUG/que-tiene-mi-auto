@@ -52,6 +52,31 @@ export default function AppHeader() {
 
         <nav aria-label="Navegación principal" className="flex shrink-0 items-center gap-1">
           <LanguageSelector />
+          <details className="relative sm:hidden">
+            <summary
+              aria-label={t("nav.menu")}
+              className="flex min-h-10 min-w-10 cursor-pointer list-none items-center justify-center rounded-lg border border-white/10 bg-slate-900 text-slate-200 transition hover:bg-white/5"
+            >
+              <span className="text-lg leading-none" aria-hidden="true">☰</span>
+            </summary>
+            <div className="absolute right-0 top-[calc(100%+0.5rem)] z-40 w-52 rounded-xl border border-white/10 bg-slate-900 p-2 shadow-2xl shadow-black/40">
+              <Link href="/historial" className="block rounded-lg px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/5">
+                {t("nav.history")}
+              </Link>
+              <Link href="/sugerencias" className="block rounded-lg px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/5">
+                {t("nav.feedback")}
+              </Link>
+              <Link href="/cuenta" className="block rounded-lg px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/5">
+                {t("nav.account")}
+              </Link>
+              <Link href={myVehicleHref} className="block rounded-lg px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/5">
+                {t("nav.myVehicle")}
+              </Link>
+              <Link href={diagnosticHref} className="mt-1 block rounded-lg bg-sky-400 px-3 py-3 text-sm font-bold text-slate-950 hover:bg-sky-300">
+                {t("nav.diagnose")}
+              </Link>
+            </div>
+          </details>
           <Link
             href="/historial"
             className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white sm:inline-flex"
