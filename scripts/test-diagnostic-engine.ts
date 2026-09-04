@@ -61,6 +61,13 @@ const englishPowerRiskResult = localizeDiagnosticResult(powerRiskResult, "en");
 assert.notEqual(englishPowerRiskResult.title, powerRiskResult.title);
 assert.equal(englishPowerRiskResult.safetyNotice?.includes("Stop in a safe place"), true);
 
+const temperatureRiskResult = diagnosticResults.find((result) => result.id === "temperatura-riesgo-inmediato");
+assert.ok(temperatureRiskResult);
+assert.equal(
+  localizeDiagnosticResult(temperatureRiskResult, "en").safetyNotice?.includes("do not open the cooling-system cap"),
+  true,
+);
+
 const startSystemResult = runDiagnostic(noArrancaDiagnostic, startQuestionId, {
   "motor-gira": "no-gira",
   "no-gira": "clic",
