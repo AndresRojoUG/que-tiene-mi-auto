@@ -70,7 +70,7 @@ function CommunityContent() {
       <button disabled={isSending || !databaseVehicleId} className="w-full rounded-xl bg-sky-400 px-5 py-3 font-bold text-slate-950 disabled:opacity-50">{isSending ? copy.sending : copy.submit}</button>
     </form>
     {message && <p className="mt-5 rounded-xl bg-slate-900 p-4 text-sm text-slate-300">{message}</p>}
-    <div className="mt-8 space-y-4">{questions.map((question) => <article key={question.id} className="rounded-2xl border border-slate-800 bg-slate-900 p-5"><h2 className="text-xl font-bold">{question.title}</h2><p className="mt-3 whitespace-pre-wrap leading-7 text-slate-300">{question.body}</p></article>)}</div>
+    <div className="mt-8 space-y-4">{questions.map((question) => <button type="button" onClick={() => router.push(`/vehiculo/comunidad/pregunta?id=${question.id}`)} key={question.id} className="w-full rounded-2xl border border-slate-800 bg-slate-900 p-5 text-left transition hover:border-sky-400/50"><h2 className="text-xl font-bold">{question.title}</h2><p className="mt-3 line-clamp-3 whitespace-pre-wrap leading-7 text-slate-300">{question.body}</p><span className="mt-4 inline-block text-sm font-bold text-sky-300">View solutions →</span></button>)}</div>
     {showSuccess && <div role="dialog" aria-modal="true" className="fixed inset-0 z-50 grid place-items-center bg-slate-950/80 p-5"><div className="w-full max-w-md rounded-3xl border border-emerald-400/30 bg-slate-900 p-6 shadow-2xl"><p className="text-3xl">✓</p><h2 className="mt-3 text-2xl font-black text-emerald-300">{copy.sent}</h2><button type="button" onClick={() => setShowSuccess(false)} className="mt-6 w-full rounded-xl bg-emerald-400 px-5 py-3 font-bold text-slate-950">{copy.close}</button></div></div>}
   </section></main>;
 }
