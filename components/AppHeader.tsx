@@ -6,9 +6,12 @@ import {
   readSelectedVehicleId,
   SELECTED_VEHICLE_CHANGED_EVENT,
 } from "@/lib/vehicles/session";
+import LanguageSelector from "@/components/LanguageSelector";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function AppHeader() {
   const [vehicleId, setVehicleId] = useState<string>();
+  const { t } = useLanguage();
 
   useEffect(() => {
     const syncSelectedVehicle = () => setVehicleId(readSelectedVehicleId());
@@ -39,7 +42,7 @@ export default function AppHeader() {
         <Link
           href="/"
           className="inline-flex items-center gap-2 rounded-xl font-black tracking-tight text-white"
-          aria-label="¿Qué tiene mi auto? — Inicio"
+          aria-label={t("nav.home")}
         >
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-400 text-sm text-slate-950">
             ⌁
@@ -52,32 +55,33 @@ export default function AppHeader() {
             href="/historial"
             className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white sm:inline-flex"
           >
-            Historial
+            {t("nav.history")}
           </Link>
           <Link
             href="/sugerencias"
             className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white lg:inline-flex"
           >
-            Sugerencias
+            {t("nav.feedback")}
           </Link>
           <Link
             href="/cuenta"
             className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
           >
-            Cuenta
+            {t("nav.account")}
           </Link>
           <Link
             href={myVehicleHref}
             className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
           >
-            Mi auto
+            {t("nav.myVehicle")}
           </Link>
           <Link
             href={diagnosticHref}
             className="hidden rounded-lg bg-sky-400 px-3 py-2 text-sm font-bold text-slate-950 transition hover:bg-sky-300 sm:inline-flex"
           >
-            Diagnosticar
+            {t("nav.diagnose")}
           </Link>
+          <LanguageSelector />
         </nav>
       </div>
     </header>

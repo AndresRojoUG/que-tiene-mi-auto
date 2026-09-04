@@ -1,24 +1,15 @@
-import Link from "next/link";
+"use client";
 
-const benefits = [
-  {
-    title: "Diagnóstico guiado",
-    description: "Responde preguntas sencillas y avanza paso a paso.",
-    icon: "⌁",
-  },
-  {
-    title: "Información de tu auto",
-    description: "Consulta datos técnicos organizados por vehículo.",
-    icon: "▣",
-  },
-  {
-    title: "Sin complicaciones",
-    description: "Pensado para usarlo desde el teléfono junto a tu auto.",
-    icon: "✓",
-  },
-];
+import Link from "next/link";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Home() {
+  const { t } = useLanguage();
+  const benefits = [
+    { title: t("home.guided.title"), description: t("home.guided.description"), icon: "⌁" },
+    { title: t("home.vehicleInfo.title"), description: t("home.vehicleInfo.description"), icon: "▣" },
+    { title: t("home.simple.title"), description: t("home.simple.description"), icon: "✓" },
+  ];
   return (
     <main className="min-h-screen overflow-hidden">
       <section className="relative isolate">
@@ -26,17 +17,15 @@ export default function Home() {
           <div className="max-w-3xl">
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-sky-400/20 bg-sky-400/10 px-3 py-1.5 text-xs font-semibold tracking-wide text-sky-300 sm:text-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-sky-400" aria-hidden="true" />
-              Diagnóstico automotriz guiado
+              {t("home.badge")}
             </div>
 
             <h1 className="text-4xl font-black tracking-tight text-white sm:text-6xl lg:text-7xl">
-              ¿Qué tiene
-              <span className="block text-sky-400">mi auto?</span>
+              {t("home.title")}
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:mt-6 sm:text-xl sm:leading-8">
-              Identifica posibles causas de una falla con preguntas claras,
-              comprobaciones sencillas e información específica de tu vehículo.
+              {t("home.description")}
             </p>
 
             <div className="mt-8 flex w-full flex-col gap-3 sm:mt-10 sm:w-auto sm:flex-row">
@@ -44,14 +33,14 @@ export default function Home() {
                 href="/seleccionar-vehiculo"
                 className="inline-flex min-h-14 w-full items-center justify-center rounded-2xl bg-sky-400 px-7 text-base font-bold text-slate-950 shadow-lg shadow-sky-950/30 transition hover:bg-sky-300 active:scale-[0.99] sm:w-auto"
               >
-                Comenzar diagnóstico
+                {t("home.startDiagnostic")}
                 <span className="ml-2" aria-hidden="true">→</span>
               </Link>
               <Link
                 href="/seleccionar-vehiculo"
                 className="inline-flex min-h-14 w-full items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] px-7 text-base font-semibold text-white transition hover:bg-white/[0.08] sm:w-auto"
               >
-                Buscar mi vehículo
+                {t("home.findVehicle")}
               </Link>
             </div>
           </div>
