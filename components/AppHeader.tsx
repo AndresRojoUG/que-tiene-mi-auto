@@ -55,6 +55,12 @@ export default function AppHeader() {
             Historial
           </Link>
           <Link
+            href="/cuenta"
+            className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
+          >
+            Cuenta
+          </Link>
+          <Link
             href={myVehicleHref}
             className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
           >
