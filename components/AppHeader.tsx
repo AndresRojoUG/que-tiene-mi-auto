@@ -47,10 +47,11 @@ export default function AppHeader() {
           <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-sky-400 text-sm text-slate-950">
             ⌁
           </span>
-          <span className="text-sm sm:text-base">¿Qué tiene mi auto?</span>
+          <span className="hidden text-sm sm:inline sm:text-base">¿Qué tiene mi auto?</span>
         </Link>
 
-        <nav aria-label="Navegación principal" className="flex items-center gap-1">
+        <nav aria-label="Navegación principal" className="flex shrink-0 items-center gap-1">
+          <LanguageSelector />
           <Link
             href="/historial"
             className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white sm:inline-flex"
@@ -65,13 +66,13 @@ export default function AppHeader() {
           </Link>
           <Link
             href="/cuenta"
-            className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
+            className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white sm:inline-flex"
           >
             {t("nav.account")}
           </Link>
           <Link
             href={myVehicleHref}
-            className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white"
+            className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white sm:inline-flex"
           >
             {t("nav.myVehicle")}
           </Link>
@@ -81,7 +82,6 @@ export default function AppHeader() {
           >
             {t("nav.diagnose")}
           </Link>
-          <LanguageSelector />
         </nav>
       </div>
     </header>
