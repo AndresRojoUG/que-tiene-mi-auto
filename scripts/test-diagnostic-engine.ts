@@ -11,6 +11,7 @@ import { luzTableroDiagnostic } from "../data/diagnostics/luz-tablero";
 import { fugaDiagnostic } from "../data/diagnostics/fuga";
 import { pierdePotenciaDiagnostic } from "../data/diagnostics/pierde-potencia";
 import { tironeaDiagnostic } from "../data/diagnostics/tironea";
+import { ruidoDiagnostic } from "../data/diagnostics/ruido";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
@@ -166,6 +167,14 @@ const jerkingAtIdle = runDiagnostic(tironeaDiagnostic, "cuando-tironea", {
 assert.equal(jerkingAtIdle.status, "result");
 if (jerkingAtIdle.status === "result") {
   assert.equal(jerkingAtIdle.resultId, "tironeo-ralenti");
+}
+
+const unusualNoiseWhileDriving = runDiagnostic(ruidoDiagnostic, "tipo-ruido", {
+  "tipo-ruido": "aparece-en-movimiento",
+});
+assert.equal(unusualNoiseWhileDriving.status, "result");
+if (unusualNoiseWhileDriving.status === "result") {
+  assert.equal(unusualNoiseWhileDriving.resultId, "ruido-en-movimiento");
 }
 
 console.log("Diagnostic engine tests passed.");

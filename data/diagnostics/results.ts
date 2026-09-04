@@ -19,6 +19,40 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "ruido-riesgo-inmediato",
+    title: "Prioriza detenerte de forma segura",
+    summary: "Un golpe fuerte, roce continuo o cambios anormales en frenos o dirección pueden comprometer la conducción.",
+    safetyNotice: "Detente en un lugar seguro. No continúes si el vehículo no frena, dirige o responde de forma predecible, o si el ruido es intenso y repentino.",
+    possibleCauses: ["Condición mecánica o de seguridad que requiere inspección", "Componente que no debe identificarse solo por el sonido"],
+    recommendedChecks: ["Solicitar asistencia o una revisión profesional antes de volver a circular.", "Registrar cuándo apareció el ruido sin acercarse a componentes en movimiento."],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "ruido-requiere-revision-pronta",
+    title: "Conviene revisar el vehículo antes de exigirlo",
+    summary: "Un ruido del motor acompañado de advertencia o vibración intensa necesita diagnóstico; el sonido no confirma una pieza específica.",
+    safetyNotice: "Detente si aparece una advertencia roja, humo, olor a quemado o pérdida de potencia. Evita acelerar para intentar identificar el origen.",
+    possibleCauses: ["Condición de motor que requiere diagnóstico", "Sistema con una falla registrada o pendiente de inspección"],
+    recommendedChecks: ["Anotar las luces o mensajes del tablero.", "Solicitar lectura de códigos sin borrarlos y programar una revisión."],
+    difficulty: "Intermedio",
+  },
+  {
+    id: "ruido-en-movimiento",
+    title: "Registra en qué condiciones aparece el ruido",
+    summary: "Un ruido al circular puede provenir de distintos sistemas. Se requiere una revisión para determinar su origen con certeza.",
+    possibleCauses: ["Condición de rodaje, frenos, suspensión o tren motriz que requiere revisión", "Elemento externo o de carrocería que debe inspeccionarse"],
+    recommendedChecks: ["Anotar si aparece al frenar, girar, pasar un bache o con cierta velocidad, sin provocar maniobras.", "Programar una revisión si se repite o aumenta."],
+    difficulty: "Básico",
+  },
+  {
+    id: "ruido-informacion-insuficiente",
+    title: "Necesitamos identificar mejor el patrón del ruido",
+    summary: "No hay información suficiente para orientar una causa específica de forma segura.",
+    possibleCauses: ["Información insuficiente para clasificar el ruido"],
+    recommendedChecks: ["Registrar cuándo ocurre y si hay luces o mensajes en el tablero.", "Detenerse si el ruido es repentino, muy intenso o afecta la dirección, los frenos o el motor."],
+    difficulty: "Básico",
+  },
+  {
     id: "tironeo-riesgo-inmediato",
     title: "No continúes si el vehículo pierde funcionamiento de forma intensa",
     summary: "Tirones junto con una advertencia roja, una luz parpadeando o pérdida fuerte de potencia requieren atención antes de seguir circulando.",
