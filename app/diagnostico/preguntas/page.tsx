@@ -6,6 +6,9 @@ import { getDiagnosticDefinition } from "@/data/diagnostics";
 import { runDiagnostic } from "@/data/diagnostics/engine";
 import { diagnosticProblems } from "@/data/diagnostics/problems";
 import { diagnosticResults } from "@/data/diagnostics/results";
+import { localizeQuestions } from "@/data/diagnostics/localization";
+import { useLanguage } from "@/components/LanguageProvider";
+import { diagnosticProblemTranslations } from "@/lib/i18n/translations";
 import { saveDiagnosticHistory } from "@/lib/diagnostics/history";
 import {
   clearDiagnosticAnswers,
@@ -21,12 +24,14 @@ function PreguntasContent() {
 
   const vehicleId = searchParams.get("vehicle");
   const problemId = searchParams.get("problem") || "no-arranca";
+  const { locale } = useLanguage();
   const requestedQuestionId = searchParams.get("question");
   const diagnostic = getDiagnosticDefinition(problemId, vehicleId ?? undefined);
   const storedAnswers = readDiagnosticAnswers(problemId, vehicleId);
   const answers = toEngineAnswers(storedAnswers);
-  const state = diagnostic
-    ? runDiagnostic(diagnostic.questions, diagnostic.startQuestionId, answers)
+  const questions = diagnostic ? localizeQuestions(diagnostic.questions, locale) : undefined;
+  const state = diagnostic && questions
+    ? runDiagnostic(questions, diagnostic.startQuestionId, answers)
     : null;
   const problem = diagnosticProblems.find((item) => item.id === problemId);
   const answeredCount = Object.keys(storedAnswers).length;
@@ -116,7 +121,7 @@ function PreguntasContent() {
     };
 
     const nextState = runDiagnostic(
-      diagnostic.questions,
+      questions!,
       diagnostic.startQuestionId,
       toEngineAnswers(nextStoredAnswers),
     );
@@ -162,7 +167,7 @@ function PreguntasContent() {
               Diagnóstico guiado
             </span>
             <span className="text-slate-500">
-              {problem?.title ?? "Problema seleccionado"}
+            {diagnosticProblemTranslations[locale][problemId]?.title ?? problem?.title ?? "Selected problem"}
             </span>
           </div>
           <p className="mt-5 text-sm text-slate-400">

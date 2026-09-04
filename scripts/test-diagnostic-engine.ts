@@ -13,6 +13,7 @@ import { pierdePotenciaDiagnostic } from "../data/diagnostics/pierde-potencia";
 import { tironeaDiagnostic } from "../data/diagnostics/tironea";
 import { ruidoDiagnostic } from "../data/diagnostics/ruido";
 import { runDiagnostic } from "../data/diagnostics/engine";
+import { localizeQuestions } from "../data/diagnostics/localization";
 
 const startQuestionId = "motor-gira";
 
@@ -47,6 +48,11 @@ assert.equal(initialState.status, "question");
 if (initialState.status === "question") {
   assert.equal(initialState.question.id, startQuestionId);
 }
+
+const englishStartQuestions = localizeQuestions(noArrancaDiagnostic, "en");
+assert.notEqual(englishStartQuestions[0].question, noArrancaDiagnostic[0].question);
+assert.equal(englishStartQuestions[0].options[0].nextQuestion, "no-gira");
+assert.equal(englishStartQuestions[0].options[0].id, "no-gira");
 
 const startSystemResult = runDiagnostic(noArrancaDiagnostic, startQuestionId, {
   "motor-gira": "no-gira",
