@@ -8,6 +8,7 @@ import { seApagaDiagnostic } from "../data/diagnostics/se-apaga";
 import { seCalientaDiagnostic } from "../data/diagnostics/se-calienta";
 import { electricoDiagnostic } from "../data/diagnostics/electrico";
 import { luzTableroDiagnostic } from "../data/diagnostics/luz-tablero";
+import { fugaDiagnostic } from "../data/diagnostics/fuga";
 import { runDiagnostic } from "../data/diagnostics/engine";
 
 const startQuestionId = "motor-gira";
@@ -139,6 +140,14 @@ const flashingCheckEngine = runDiagnostic(luzTableroDiagnostic, "color-o-senal-t
 assert.equal(flashingCheckEngine.status, "result");
 if (flashingCheckEngine.status === "result") {
   assert.equal(flashingCheckEngine.resultId, "tablero-check-parpadeando");
+}
+
+const fuelLeakRisk = runDiagnostic(fugaDiagnostic, "tipo-de-fuga", {
+  "tipo-de-fuga": "humo-olor-combustible",
+});
+assert.equal(fuelLeakRisk.status, "result");
+if (fuelLeakRisk.status === "result") {
+  assert.equal(fuelLeakRisk.resultId, "fuga-riesgo-inmediato");
 }
 
 console.log("Diagnostic engine tests passed.");

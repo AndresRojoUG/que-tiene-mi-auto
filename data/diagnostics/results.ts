@@ -19,6 +19,31 @@ export type DiagnosticResult = {
 
 export const diagnosticResults: DiagnosticResult[] = [
   {
+    id: "fuga-riesgo-inmediato",
+    title: "No continúes hasta evaluar la condición con seguridad",
+    summary: "Humo, olor fuerte a combustible, vapor o una advertencia roja pueden indicar una condición que necesita atención inmediata.",
+    safetyNotice: "Detente en un lugar seguro, apaga el motor si hacerlo es seguro y evita fuentes de ignición. No abras el sistema de refrigeración cuando esté caliente.",
+    possibleCauses: ["Fuga que requiere inspección profesional", "Condición de combustible, aceite o refrigeración que no debe asumirse sin revisión"],
+    recommendedChecks: ["Solicitar asistencia si hay humo, combustible o vapor.", "Registrar la ubicación de la mancha solo cuando el vehículo esté frío y detenido."],
+    difficulty: "Avanzado",
+  },
+  {
+    id: "fuga-requiere-identificacion",
+    title: "Conviene identificar el líquido y vigilar el nivel",
+    summary: "Una mancha por sí sola no confirma el origen. El color puede cambiar con el tiempo y diferentes sistemas pueden dejar líquidos parecidos.",
+    possibleCauses: ["Pérdida de un fluido que requiere identificación", "Residuo externo que no necesariamente pertenece al vehículo"],
+    recommendedChecks: ["Colocar cartón limpio debajo del auto estacionado para observar la zona, sin trabajar bajo el vehículo.", "Consultar el manual para revisar niveles solo con el vehículo frío y en una superficie nivelada.", "Programar una revisión si la mancha crece o vuelve a aparecer."],
+    difficulty: "Básico",
+  },
+  {
+    id: "fuga-informacion-insuficiente",
+    title: "Necesitamos observar la fuga con más certeza",
+    summary: "Sin conocer la ubicación y si existen otras señales, no es seguro orientar una causa específica.",
+    possibleCauses: ["Información insuficiente para clasificar la fuga"],
+    recommendedChecks: ["Tomar una foto desde una distancia segura cuando el auto esté detenido.", "Detenerse y solicitar ayuda si aparece humo, olor a combustible, vapor o advertencia roja."],
+    difficulty: "Básico",
+  },
+  {
     id: "tablero-riesgo-inmediato",
     title: "Detente de forma segura y no ignores la advertencia",
     summary: "Una luz roja o un mensaje para detenerse puede indicar una condición que requiere atención inmediata.",
