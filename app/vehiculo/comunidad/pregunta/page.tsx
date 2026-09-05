@@ -71,4 +71,9 @@ function QuestionContent() {
   </section></main>;
 }
 
-export default function CommunityQuestionPage() { return <Suspense fallback={<main className="min-h-screen bg-slate-950 p-8 text-white">Cargando...</main>}><QuestionContent /></Suspense>; }
+function QuestionLoading() {
+  const { locale } = useLanguage();
+  return <main className="min-h-screen bg-slate-950 p-8 text-white">{locale === "es" ? "Cargando..." : "Loading..."}</main>;
+}
+
+export default function CommunityQuestionPage() { return <Suspense fallback={<QuestionLoading />}><QuestionContent /></Suspense>; }
