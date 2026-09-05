@@ -6,6 +6,7 @@ import { fuses } from "@/data/technical/fuses";
 import { getVehicleById, getVehicleSummary } from "@/data/vehicles";
 import DiagnosticGuide from "@/components/DiagnosticGuide";
 import InteractiveFusePanel from "@/components/InteractiveFusePanel";
+import FuseLearningPanel from "@/components/FuseLearningPanel";
 import { useLanguage } from "@/components/LanguageProvider";
 
 function FusiblesContent() {
@@ -107,6 +108,7 @@ function FusiblesContent() {
               >
                 {copy.back}
               </button>
+              <FuseLearningPanel />
             </div>
           ) : hasInteractiveDiagram ? (
             <InteractiveFusePanel fuses={positionedFuses} />
