@@ -125,6 +125,7 @@ function CuentaContent() {
       const { error: signOutError } = await createClient().auth.signOut();
       if (signOutError) throw signOutError;
       setAccountEmail(undefined);
+      setIsAdmin(false);
       setNotice("Sesión cerrada.");
       router.refresh();
     } catch {

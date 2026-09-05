@@ -32,17 +32,28 @@ export default function AppHeader() {
   }, []);
 
   useEffect(() => {
-    async function loadAdminRole() {
+    const supabase = createClient();
+
+    async function syncAdminRole() {
       try {
-        const { data } = await createClient().auth.getUser();
-        if (!data.user) return;
-        const { data: admin } = await createClient().rpc("is_admin");
+        const { data } = await supabase.auth.getUser();
+        if (!data.user) {
+          setIsAdmin(false);
+          return;
+        }
+        const { data: admin } = await supabase.rpc("is_admin");
         setIsAdmin(Boolean(admin));
       } catch {
         setIsAdmin(false);
       }
     }
-    void loadAdminRole();
+
+    void syncAdminRole();
+    const { data: authListener } = supabase.auth.onAuthStateChange(() => {
+      void syncAdminRole();
+    });
+
+    return () => authListener.subscription.unsubscribe();
   }, []);
 
   const myVehicleHref = vehicleId
