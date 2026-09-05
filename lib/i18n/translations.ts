@@ -15,6 +15,7 @@ type TranslationKey =
   | "nav.diagnose"
   | "nav.home"
   | "nav.menu"
+  | "nav.admin"
   | "footer.safety"
   | "footer.feedback"
   | "home.badge"
@@ -63,6 +64,8 @@ type TranslationKey =
   | "myVehicle.notFound"
   | "myVehicle.notFoundDescription"
   | "myVehicle.title"
+  | "myVehicle.communityTitle"
+  | "myVehicle.communityDescription"
   | "myVehicle.diagnosisTitle"
   | "myVehicle.diagnosisDescription"
   | "myVehicle.fusesTitle"
@@ -91,6 +94,7 @@ export const translations: Record<Locale, Translations> = {
     "nav.diagnose": "Diagnosticar",
     "nav.home": "¿Qué tiene mi auto? — Inicio",
     "nav.menu": "Menú",
+    "nav.admin": "Administración",
     "footer.safety": "Diagnóstico orientativo. Ante una falla que comprometa la seguridad, detén el vehículo en un lugar seguro y busca apoyo profesional.",
     "footer.feedback": "Enviar sugerencia",
     "home.badge": "Diagnóstico automotriz guiado",
@@ -139,6 +143,8 @@ export const translations: Record<Locale, Translations> = {
     "myVehicle.notFound": "Vehículo no encontrado",
     "myVehicle.notFoundDescription": "No pudimos encontrar el vehículo seleccionado.",
     "myVehicle.title": "Mi vehículo",
+    "myVehicle.communityTitle": "Comunidad",
+    "myVehicle.communityDescription": "Comparte un problema y conoce experiencias de usuarios con este mismo vehículo.",
     "myVehicle.diagnosisTitle": "Diagnóstico",
     "myVehicle.diagnosisDescription": "Descubre qué puede estar causando el problema de tu vehículo.",
     "myVehicle.fusesTitle": "Fusibles",
@@ -164,6 +170,7 @@ export const translations: Record<Locale, Translations> = {
     "nav.diagnose": "Diagnose",
     "nav.home": "What’s wrong with my car? — Home",
     "nav.menu": "Menu",
+    "nav.admin": "Administration",
     "footer.safety": "This diagnostic is for guidance only. If a fault could compromise safety, stop the vehicle in a safe place and seek professional assistance.",
     "footer.feedback": "Send feedback",
     "home.badge": "Guided automotive diagnosis",
@@ -212,6 +219,8 @@ export const translations: Record<Locale, Translations> = {
     "myVehicle.notFound": "Vehicle not found",
     "myVehicle.notFoundDescription": "We could not find the selected vehicle.",
     "myVehicle.title": "My vehicle",
+    "myVehicle.communityTitle": "Community",
+    "myVehicle.communityDescription": "Share a problem and learn from other users’ experiences with this same vehicle.",
     "myVehicle.diagnosisTitle": "Diagnosis",
     "myVehicle.diagnosisDescription": "Find out what may be causing your vehicle’s problem.",
     "myVehicle.fusesTitle": "Fuses",
