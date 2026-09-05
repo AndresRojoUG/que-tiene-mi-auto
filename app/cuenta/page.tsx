@@ -22,8 +22,8 @@ function CuentaContent() {
   const { locale } = useLanguage();
   const isEnglish = locale === "en";
   const copy = isEnglish
-    ? { account: "Account", active: "Active session", email: "Account email", signOut: "Sign out", signIn: "Sign in", create: "Create your account", intro: "Save your history and participate in the community when these features are enabled.", password: "Password", minimum: "Minimum 8 characters.", processing: "Processing...", switchToCreate: "Don’t have an account? Create one", switchToSignIn: "Already have an account? Sign in", loading: "Loading account..." }
-    : { account: "Cuenta", active: "Sesión activa", email: "Correo de la cuenta", signOut: "Cerrar sesión", signIn: "Iniciar sesión", create: "Crea tu cuenta", intro: "Guarda tu historial y participa en la comunidad cuando estas funciones estén activas.", password: "Contraseña", minimum: "Mínimo 8 caracteres.", processing: "Procesando...", switchToCreate: "¿No tienes cuenta? Crear cuenta", switchToSignIn: "¿Ya tienes cuenta? Iniciar sesión", loading: "Cargando cuenta..." };
+    ? { account: "Account", active: "Active session", email: "Account email", signOut: "Sign out", signIn: "Sign in", create: "Create your account", intro: "Save your history and participate in the community when these features are enabled.", password: "Password", minimum: "Minimum 8 characters.", processing: "Processing…", switchToCreate: "Don’t have an account? Create one", switchToSignIn: "Already have an account? Sign in", admin: "Administration", serviceError: "We could not connect to the account service.", confirmed: "Your email was confirmed. Your account is ready.", expired: "For security, we signed you out after 30 minutes of inactivity.", confirmationError: "We could not confirm your email. Request a new registration and try again.", shortPassword: "Your password must have at least 8 characters.", signInError: "We could not sign you in. Check your email and password.", signInSuccess: "Signed in successfully.", signUpError: "We could not create the account. Check the details and try again.", signUpSuccess: "Account created and signed in.", confirmEmail: "Check your email to confirm your account before signing in.", signedOut: "Signed out.", signOutError: "We could not sign you out. Try again." }
+    : { account: "Cuenta", active: "Sesión activa", email: "Correo de la cuenta", signOut: "Cerrar sesión", signIn: "Iniciar sesión", create: "Crea tu cuenta", intro: "Guarda tu historial y participa en la comunidad cuando estas funciones estén activas.", password: "Contraseña", minimum: "Mínimo 8 caracteres.", processing: "Procesando…", switchToCreate: "¿No tienes cuenta? Crear cuenta", switchToSignIn: "¿Ya tienes cuenta? Iniciar sesión", admin: "Administración", serviceError: "No pudimos conectar con el servicio de cuentas.", confirmed: "Tu correo fue confirmado. Tu cuenta ya está lista.", expired: "Por seguridad, cerramos tu sesión después de 30 minutos sin actividad.", confirmationError: "No pudimos confirmar el correo. Solicita un nuevo registro e inténtalo otra vez.", shortPassword: "La contraseña debe tener al menos 8 caracteres.", signInError: "No pudimos iniciar sesión. Revisa tu correo y contraseña.", signInSuccess: "Sesión iniciada correctamente.", signUpError: "No pudimos crear la cuenta. Revisa los datos e inténtalo otra vez.", signUpSuccess: "Cuenta creada y sesión iniciada.", confirmEmail: "Revisa tu correo para confirmar la cuenta antes de iniciar sesión.", signedOut: "Sesión cerrada.", signOutError: "No pudimos cerrar la sesión. Inténtalo de nuevo." };
 
   useEffect(() => {
     let mounted = true;
@@ -33,7 +33,7 @@ function CuentaContent() {
         const { data } = await createClient().auth.getUser();
         if (mounted) setAccountEmail(data.user?.email);
       } catch {
-        if (mounted) setError("No pudimos conectar con el servicio de cuentas.");
+        if (mounted) setError(copy.serviceError);
       }
     }
 
@@ -41,6 +41,8 @@ function CuentaContent() {
     return () => {
       mounted = false;
     };
+  // The loaded account is independent of the display language.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -53,12 +55,12 @@ function CuentaContent() {
   }, [accountEmail]);
 
   const callbackNotice = searchParams.get("confirmed") === "1"
-    ? "Tu correo fue confirmado. Tu cuenta ya está lista."
+    ? copy.confirmed
     : searchParams.get("expired") === "1"
-      ? "Por seguridad, cerramos tu sesión después de 30 minutos sin actividad."
+      ? copy.expired
       : undefined;
   const callbackError = searchParams.get("error")
-    ? "No pudimos confirmar el correo. Solicita un nuevo registro e inténtalo otra vez."
+    ? copy.confirmationError
     : undefined;
   const displayedNotice = notice ?? callbackNotice;
   const displayedError = error ?? callbackError;
@@ -69,7 +71,7 @@ function CuentaContent() {
     setNotice(undefined);
 
     if (password.length < 8) {
-      setError("La contraseña debe tener al menos 8 caracteres.");
+      setError(copy.shortPassword);
       return;
     }
 
@@ -83,12 +85,12 @@ function CuentaContent() {
           password,
         });
         if (signInError || !data.user) {
-          setError("No pudimos iniciar sesión. Revisa tu correo y contraseña.");
+          setError(copy.signInError);
           return;
         }
         setAccountEmail(data.user.email);
         setPassword("");
-        setNotice("Sesión iniciada correctamente.");
+        setNotice(copy.signInSuccess);
         router.refresh();
         return;
       }
@@ -101,20 +103,20 @@ function CuentaContent() {
         },
       });
       if (signUpError) {
-        setError("No pudimos crear la cuenta. Revisa los datos e inténtalo otra vez.");
+        setError(copy.signUpError);
         return;
       }
 
       setPassword("");
       if (data.session) {
         setAccountEmail(data.user?.email);
-        setNotice("Cuenta creada y sesión iniciada.");
+        setNotice(copy.signUpSuccess);
         router.refresh();
       } else {
-        setNotice("Revisa tu correo para confirmar la cuenta antes de iniciar sesión.");
+        setNotice(copy.confirmEmail);
       }
     } catch {
-      setError("No pudimos conectar con el servicio de cuentas. Inténtalo más tarde.");
+      setError(copy.serviceError);
     } finally {
       setIsSubmitting(false);
     }
@@ -127,10 +129,10 @@ function CuentaContent() {
       if (signOutError) throw signOutError;
       setAccountEmail(undefined);
       setIsAdmin(false);
-      setNotice("Sesión cerrada.");
+      setNotice(copy.signedOut);
       router.refresh();
     } catch {
-      setError("No pudimos cerrar la sesión. Inténtalo de nuevo.");
+      setError(copy.signOutError);
     }
   }
 
@@ -153,7 +155,7 @@ function CuentaContent() {
             >
               {copy.signOut}
             </button>
-            {isAdmin && <button type="button" onClick={() => router.push("/admin")} className="mt-3 block rounded-xl bg-sky-400 px-5 py-3 font-bold text-slate-950">{isEnglish ? "Administration" : "Administración"}</button>}
+            {isAdmin && <button type="button" onClick={() => router.push("/admin")} className="mt-3 block rounded-xl bg-sky-400 px-5 py-3 font-bold text-slate-950">{copy.admin}</button>}
           </div>
         </section>
       </main>
