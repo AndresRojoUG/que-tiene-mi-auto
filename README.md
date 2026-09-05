@@ -1,36 +1,73 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ¿Qué tiene mi auto?
 
-## Getting Started
+Aplicación web bilingüe (español/inglés) para orientar diagnósticos automotrices, consultar información técnica segura y colaborar en comunidad por vehículo.
 
-First, run the development server:
+## Alcance actual
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Diagnóstico guiado para nueve síntomas frecuentes, con motor de reglas validado.
+- Catálogo escalable de vehículos, diagnósticos y datos técnicos.
+- Consulta de fusibles, relevadores, códigos OBD, mantenimiento e información técnica.
+- Diagramas interactivos propios solo cuando las posiciones y asignaciones estén verificadas.
+- Guías de aprendizaje y referencias externas cuando todavía no existe una asignación exacta.
+- Cuenta con correo/contraseña, cierre por inactividad, historial sincronizable y comunidad moderada.
+- Sugerencias contextualizadas con vehículo y apartado de origen.
+- Panel de Administración protegido por rol para sugerencias, comunidad y reportes.
+
+## Requisitos
+
+- Node.js 20 o superior.
+- Un proyecto de Supabase para autenticación y base de datos.
+
+## Configuración local
+
+1. Instala dependencias:
+
+   ```powershell
+   npm install
+   ```
+
+2. Copia `.env.example` como `.env.local` y completa únicamente las variables públicas de Supabase necesarias para el navegador. No subas `.env.local` a Git.
+
+3. En el editor SQL de Supabase, ejecuta las migraciones de `supabase/migrations` **en orden por nombre**. Las migraciones aplican tablas, RLS, historial, sugerencias, comunidad y políticas de administración.
+
+4. Inicia la aplicación:
+
+   ```powershell
+   npm run dev
+   ```
+
+   Abre `http://localhost:3000`.
+
+## Validación antes de subir cambios
+
+```powershell
+npm run check
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Ese comando ejecuta lint, TypeScript, validadores de diagnóstico/datos técnicos/vehículos, pruebas del motor de diagnóstico y compilación de producción.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Datos técnicos y seguridad
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Las asignaciones de fusibles, relevadores y posiciones físicas no se publican como definitivas hasta que una fuente confiable coincide con el vehículo, mercado, motor y equipamiento. Un diagrama genérico, una foto incompleta o un dato de otro vehículo no son suficientes.
 
-## Learn More
+Las referencias externas son para consulta y no sustituyen el manual ni una revisión profesional. No se debe reemplazar un fusible por otro de mayor amperaje ni trabajar con sistemas eléctricos sin seguir las precauciones del fabricante.
 
-To learn more about Next.js, take a look at the following resources:
+## Administración
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+La interfaz `/admin` no concede permisos por sí sola. La cuenta debe tener el rol correspondiente en `public.app_roles`, conforme a las políticas RLS incluidas en las migraciones. Nunca uses ni expongas una clave `SUPABASE_SERVICE_ROLE_KEY` en el navegador.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Pruebas de lanzamiento
 
-## Deploy on Vercel
+Sigue [docs/PRUEBAS_FINALES.md](docs/PRUEBAS_FINALES.md) antes de declarar una versión lista para usuarios.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Flujo Git
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```powershell
+git status
+npm run check
+git add .
+git commit -m "tipo: descripción breve"
+git push origin v1-development
+```
+
+No incluyas `.env.local`, credenciales, capturas con datos personales ni claves en los commits.
