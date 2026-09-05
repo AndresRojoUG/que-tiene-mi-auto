@@ -131,9 +131,7 @@ function VehiculoContent() {
           </button>
 
           <div className="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left opacity-75">
-            <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">
-              {t("myVehicle.comingSoon")}
-            </span>
+            <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">{t("myVehicle.comingSoon")}</span>
 
             <span className="text-3xl">
               🔌
@@ -148,10 +146,7 @@ function VehiculoContent() {
             </p>
           </div>
 
-          <div className="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left opacity-75">
-            <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">
-              {t("myVehicle.comingSoon")}
-            </span>
+          <button type="button" onClick={() => router.push(`/vehiculo/obd?vehicle=${vehicle.id}`)} className="rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left transition hover:-translate-y-1 hover:bg-slate-800">
 
             <span className="text-3xl">
               📟
@@ -164,7 +159,7 @@ function VehiculoContent() {
             <p className="mt-2 text-sm leading-6 text-slate-400">
               {t("myVehicle.obdDescription")}
             </p>
-          </div>
+          </button>
 
           <div className="relative rounded-3xl border border-slate-800 bg-slate-900 p-6 text-left opacity-75">
             <span className="absolute right-5 top-5 rounded-full bg-slate-800 px-3 py-1 text-xs font-medium text-slate-400">
