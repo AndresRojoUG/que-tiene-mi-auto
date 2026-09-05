@@ -9,6 +9,7 @@ import InteractiveFusePanel from "@/components/InteractiveFusePanel";
 import FuseLearningPanel from "@/components/FuseLearningPanel";
 import FuseGenerationExplorer from "@/components/FuseGenerationExplorer";
 import { getFuseReferenceCoverage } from "@/data/technical/fuse-reference-catalog";
+import TechnicalReferenceList from "@/components/TechnicalReferenceList";
 import { useLanguage } from "@/components/LanguageProvider";
 
 function FusiblesContent() {
@@ -113,6 +114,7 @@ function FusiblesContent() {
               </button>
               <FuseLearningPanel />
               <FuseGenerationExplorer coverage={referenceCoverage} />
+              <TechnicalReferenceList vehicleId={vehicleId} topic="fuses" />
             </div>
           ) : hasInteractiveDiagram ? (
             <InteractiveFusePanel fuses={positionedFuses} />
