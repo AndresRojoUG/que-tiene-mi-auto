@@ -7,6 +7,8 @@ import { getVehicleById, getVehicleSummary } from "@/data/vehicles";
 import DiagnosticGuide from "@/components/DiagnosticGuide";
 import InteractiveFusePanel from "@/components/InteractiveFusePanel";
 import FuseLearningPanel from "@/components/FuseLearningPanel";
+import FuseGenerationExplorer from "@/components/FuseGenerationExplorer";
+import { getFuseReferenceCoverage } from "@/data/technical/fuse-reference-catalog";
 import { useLanguage } from "@/components/LanguageProvider";
 
 function FusiblesContent() {
@@ -16,6 +18,7 @@ function FusiblesContent() {
   const vehicleId = searchParams.get("vehicle");
 
   const vehicle = getVehicleById(vehicleId);
+  const referenceCoverage = vehicle ? getFuseReferenceCoverage(vehicle.brand, vehicle.model) : [];
   const { locale } = useLanguage();
   const isEnglish = locale === "en";
   const copy = isEnglish
@@ -109,6 +112,7 @@ function FusiblesContent() {
                 {copy.back}
               </button>
               <FuseLearningPanel />
+              <FuseGenerationExplorer coverage={referenceCoverage} />
             </div>
           ) : hasInteractiveDiagram ? (
             <InteractiveFusePanel fuses={positionedFuses} />
