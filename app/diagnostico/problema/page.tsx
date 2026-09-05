@@ -16,6 +16,17 @@ function ProblemaContent() {
 
   const vehicleId = searchParams.get("vehicle");
   const { locale, t } = useLanguage();
+  const copy = locale === "en"
+    ? {
+        unavailable: "Guided flow not available yet",
+        reference: "View technical references",
+        selectedVehicle: "Selected vehicle",
+      }
+    : {
+        unavailable: "El flujo guiado aún no está disponible",
+        reference: "Ver referencias técnicas",
+        selectedVehicle: "Vehículo seleccionado",
+      };
 
   useEffect(() => {
     clearDiagnosticAnswers();
@@ -50,18 +61,19 @@ function ProblemaContent() {
            <button
               key={problem.id}
               type="button"
-              disabled={!isAvailable}
               onClick={() => {
                 if (isAvailable) {
                   router.push(
                     `/diagnostico/preguntas?vehicle=${vehicleId}&problem=${problem.id}`,
                   );
+                } else {
+                  router.push(`/vehiculo/informacion-tecnica?vehicle=${vehicleId}`);
                 }
               }}
               className={`rounded-2xl border p-5 text-left transition ${
                 isAvailable
       ? "border-slate-800 bg-slate-900 hover:border-slate-500 hover:bg-slate-800"
-      : "cursor-not-allowed border-slate-900 bg-slate-950 opacity-60"
+      : "border-amber-400/20 bg-amber-400/5 hover:border-amber-300/50 hover:bg-amber-400/10"
   }`}
 >
               <div className="text-3xl">{problem.icon}</div>
@@ -75,7 +87,7 @@ function ProblemaContent() {
               </p>
               {!isAvailable && (
   <p className="mt-3 text-xs font-medium text-slate-500">
-    Próximamente
+    {copy.unavailable} · {copy.reference} →
   </p>
 )}
             </button>
@@ -84,8 +96,20 @@ function ProblemaContent() {
         </div>
 
         <p className="mt-8 text-xs text-slate-600">
-          Vehículo seleccionado: {vehicleId}
+          {copy.selectedVehicle}: {vehicleId}
         </p>
+      </section>
+    </main>
+  );
+}
+
+function ProblemLoading() {
+  const { t } = useLanguage();
+
+  return (
+    <main className="min-h-screen bg-slate-950 text-white">
+      <section className="mx-auto max-w-4xl px-6 py-16">
+        <p className="text-slate-400">{t("diagnostic.loading")}</p>
       </section>
     </main>
   );
@@ -94,15 +118,7 @@ function ProblemaContent() {
 export default function ProblemaPage() {
   return (
     <Suspense
-      fallback={
-        <main className="min-h-screen bg-slate-950 text-white">
-          <section className="mx-auto max-w-4xl px-6 py-16">
-            <p className="text-slate-400">
-              Cargando diagnóstico...
-            </p>
-          </section>
-        </main>
-      }
+      fallback={<ProblemLoading />}
     >
       <ProblemaContent />
     </Suspense>

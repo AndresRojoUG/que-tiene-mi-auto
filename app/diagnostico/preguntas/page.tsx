@@ -25,6 +25,37 @@ function PreguntasContent() {
   const vehicleId = searchParams.get("vehicle");
   const problemId = searchParams.get("problem") || "no-arranca";
   const { locale } = useLanguage();
+  const copy = locale === "en"
+    ? {
+        unavailableTitle: "Diagnosis unavailable",
+        unavailableDescription: "A guided flow is not available for this symptom. You can review the vehicle's technical references or send us the symptom so we can prioritize it.",
+        references: "View technical references",
+        feedback: "Request this diagnostic",
+        back: "Back",
+        tag: "Guided diagnosis",
+        begin: "Let's identify the symptom.",
+        answerSingular: "answer recorded.",
+        answerPlural: "answers recorded.",
+        errorTitle: "We couldn't continue",
+        restart: "Restart diagnosis",
+        selectedProblem: "Selected problem",
+        options: "Answer options",
+      }
+    : {
+        unavailableTitle: "Diagnóstico no disponible",
+        unavailableDescription: "Aún no hay un flujo guiado para este síntoma. Puedes revisar las referencias técnicas del vehículo o enviarnos el síntoma para priorizarlo.",
+        references: "Ver referencias técnicas",
+        feedback: "Solicitar este diagnóstico",
+        back: "Volver",
+        tag: "Diagnóstico guiado",
+        begin: "Empecemos por identificar el síntoma.",
+        answerSingular: "respuesta registrada.",
+        answerPlural: "respuestas registradas.",
+        errorTitle: "No pudimos continuar",
+        restart: "Reiniciar diagnóstico",
+        selectedProblem: "Problema seleccionado",
+        options: "Opciones de respuesta",
+      };
   const requestedQuestionId = searchParams.get("question");
   const diagnostic = getDiagnosticDefinition(problemId, vehicleId ?? undefined);
   const storedAnswers = readDiagnosticAnswers(problemId, vehicleId);
@@ -59,17 +90,14 @@ function PreguntasContent() {
     return (
       <main className="min-h-screen bg-slate-950 text-white">
         <section className="mx-auto max-w-3xl px-6 py-16">
-          <h1 className="text-3xl font-bold">Diagnóstico no disponible</h1>
+          <h1 className="text-3xl font-bold">{copy.unavailableTitle}</h1>
           <p className="mt-4 leading-7 text-slate-400">
-            Todavía no tenemos un diagnóstico guiado para este problema.
+            {copy.unavailableDescription}
           </p>
-          <button
-            type="button"
-            onClick={() => router.push(`/diagnostico?vehicle=${vehicleId}`)}
-            className="mt-8 rounded-xl bg-white px-6 py-3 font-semibold text-slate-950"
-          >
-            Volver
-          </button>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button type="button" onClick={() => router.push(`/vehiculo/informacion-tecnica?vehicle=${vehicleId}`)} className="rounded-xl bg-white px-6 py-3 font-semibold text-slate-950">{copy.references}</button>
+            <button type="button" onClick={() => router.push("/sugerencias")} className="rounded-xl border border-slate-700 px-6 py-3 font-semibold">{copy.feedback}</button>
+          </div>
         </section>
       </main>
     );
@@ -85,8 +113,8 @@ function PreguntasContent() {
     return (
       <main className="min-h-screen bg-slate-950 text-white">
         <section className="mx-auto max-w-3xl px-6 py-16">
-          <p className="text-sm font-medium text-slate-400">Diagnóstico</p>
-          <h1 className="mt-3 text-3xl font-bold">No pudimos continuar</h1>
+          <p className="text-sm font-medium text-slate-400">{copy.tag}</p>
+          <h1 className="mt-3 text-3xl font-bold">{copy.errorTitle}</h1>
           <p className="mt-4 leading-7 text-slate-400">{state.message}</p>
           <button
             type="button"
@@ -96,7 +124,7 @@ function PreguntasContent() {
             }}
             className="mt-8 rounded-xl bg-white px-6 py-3 font-semibold text-slate-950"
           >
-            Reiniciar diagnóstico
+            {copy.restart}
           </button>
         </section>
       </main>
@@ -164,16 +192,16 @@ function PreguntasContent() {
         <div className="mb-10">
           <div className="flex flex-wrap items-center gap-2 text-sm">
             <span className="rounded-full bg-sky-400/10 px-3 py-1 font-semibold text-sky-300">
-              Diagnóstico guiado
+              {copy.tag}
             </span>
             <span className="text-slate-500">
-            {diagnosticProblemTranslations[locale][problemId]?.title ?? problem?.title ?? "Selected problem"}
+            {diagnosticProblemTranslations[locale][problemId]?.title ?? problem?.title ?? copy.selectedProblem}
             </span>
           </div>
           <p className="mt-5 text-sm text-slate-400">
             {answeredCount === 0
-              ? "Empecemos por identificar el síntoma."
-              : `${answeredCount} respuesta${answeredCount === 1 ? "" : "s"} registrada${answeredCount === 1 ? "" : "s"}.`}
+              ? copy.begin
+              : `${answeredCount} ${answeredCount === 1 ? copy.answerSingular : copy.answerPlural}`}
           </p>
           <h1 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
             {question.question}
@@ -186,7 +214,7 @@ function PreguntasContent() {
           )}
         </div>
 
-        <div className="space-y-3" aria-label="Opciones de respuesta">
+        <div className="space-y-3" aria-label={copy.options}>
           {question.options.map((option) => (
             <button
               key={option.id}
@@ -209,7 +237,7 @@ function PreguntasContent() {
           onClick={() => router.back()}
           className="mt-10 text-sm text-slate-500 hover:text-white"
         >
-          ← Volver
+          ← {copy.back}
         </button>
       </section>
     </main>
