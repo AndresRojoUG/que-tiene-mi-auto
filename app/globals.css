@@ -50,6 +50,11 @@ textarea {
   -webkit-tap-highlight-color: transparent;
 }
 
+select option {
+  background: #0f172a;
+  color: #f8fafc;
+}
+
 button:focus-visible,
 a:focus-visible,
 input:focus-visible,

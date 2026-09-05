@@ -88,7 +88,7 @@ export default function AppHeader() {
               <Link href={myVehicleHref} className="block rounded-lg px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/5">
                 {t("nav.myVehicle")}
               </Link>
-              {isAdmin && <Link href="/admin/sugerencias" className="block rounded-lg px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/5">Administración</Link>}
+              {isAdmin && <Link href="/admin" className="block rounded-lg px-3 py-3 text-sm font-semibold text-slate-200 hover:bg-white/5">Administración</Link>}
               <Link href={diagnosticHref} className="mt-1 block rounded-lg bg-sky-400 px-3 py-3 text-sm font-bold text-slate-950 hover:bg-sky-300">
                 {t("nav.diagnose")}
               </Link>
@@ -118,7 +118,7 @@ export default function AppHeader() {
           >
             {t("nav.myVehicle")}
           </Link>
-          {isAdmin && <Link href="/admin/sugerencias" className="hidden rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white lg:inline-flex">Administración</Link>}
+          {isAdmin && <Link href="/admin" className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-300 transition hover:bg-white/5 hover:text-white">Administración</Link>}
           <Link
             href={diagnosticHref}
             className="hidden rounded-lg bg-sky-400 px-3 py-2 text-sm font-bold text-slate-950 transition hover:bg-sky-300 sm:inline-flex"

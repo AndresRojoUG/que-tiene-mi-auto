@@ -17,6 +17,7 @@ function CuentaContent() {
   const [notice, setNotice] = useState<string>();
   const [error, setError] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const { locale } = useLanguage();
   const isEnglish = locale === "en";
   const copy = isEnglish
@@ -40,6 +41,15 @@ function CuentaContent() {
       mounted = false;
     };
   }, []);
+
+  useEffect(() => {
+    async function loadAdminRole() {
+      if (!accountEmail) { setIsAdmin(false); return; }
+      const { data } = await createClient().rpc("is_admin");
+      setIsAdmin(Boolean(data));
+    }
+    void loadAdminRole();
+  }, [accountEmail]);
 
   const callbackNotice = searchParams.get("confirmed") === "1"
     ? "Tu correo fue confirmado. Tu cuenta ya está lista."
@@ -140,6 +150,7 @@ function CuentaContent() {
             >
               {copy.signOut}
             </button>
+            {isAdmin && <button type="button" onClick={() => router.push("/admin")} className="mt-3 block rounded-xl bg-sky-400 px-5 py-3 font-bold text-slate-950">{isEnglish ? "Administration" : "Administración"}</button>}
           </div>
         </section>
       </main>
