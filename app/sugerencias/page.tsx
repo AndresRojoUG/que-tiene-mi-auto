@@ -1,21 +1,37 @@
 "use client";
 
 import Link from "next/link";
-import { FormEvent, useState } from "react";
+import { FormEvent, Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
 import BackButton from "@/components/BackButton";
+import { getVehicleById, getVehicleDisplayName } from "@/data/vehicles";
 
 type FeedbackCategory = "suggestion" | "issue" | "content_request";
+type RequestTopic = "fuses" | "relays" | "manual" | "diagnostic";
 
-export default function SugerenciasPage() {
+function getRequestContext(vehicleId: string | null, topic: string | null) {
+  const vehicle = getVehicleById(vehicleId);
+  const validTopic = ["fuses", "relays", "manual", "diagnostic"].includes(topic ?? "")
+    ? topic as RequestTopic
+    : null;
+
+  return vehicle && validTopic ? { vehicleName: getVehicleDisplayName(vehicle), topic: validTopic } : null;
+}
+
+function SugerenciasContent() {
+  const searchParams = useSearchParams();
   const { locale } = useLanguage();
   const isEnglish = locale === "en";
   const copy = isEnglish
-    ? { eyebrow: "Let’s improve it together", title: "Feedback", intro: "Tell us which feature, vehicle, diagnosis, or improvement you would like to see. We read this feedback to decide what to build next.", type: "Message type", suggestion: "Improvement suggestion", request: "Request vehicle information", issue: "Report something that does not work", message: "Your message", placeholder: "For example: I would like to view the fuse diagram for…", sending: "Sending...", send: "Send feedback", short: "Tell us a little more; write at least 10 characters.", signIn: "Sign in to send feedback.", failed: "We could not send your message yet. Try again later.", thanks: "Thank you. Your feedback was received for review.", unavailable: "We could not connect to the feedback service.", account: "signed-in account" }
-    : { eyebrow: "Mejoremos juntos", title: "Sugerencias", intro: "Cuéntanos qué función, vehículo, diagnóstico o mejora te gustaría ver. Leemos estas sugerencias para decidir qué construir después.", type: "Tipo de mensaje", suggestion: "Sugerencia de mejora", request: "Pedir información de un vehículo", issue: "Reportar algo que no funciona", message: "Tu mensaje", placeholder: "Por ejemplo: Me gustaría poder consultar el diagrama de fusibles del…", sending: "Enviando...", send: "Enviar sugerencia", short: "Cuéntanos un poco más; escribe al menos 10 caracteres.", signIn: "Inicia sesión para enviar una sugerencia.", failed: "No pudimos enviar tu mensaje todavía. Inténtalo más tarde.", thanks: "Gracias. Tu sugerencia fue recibida para revisión.", unavailable: "No pudimos conectar con el servicio de sugerencias.", account: "cuenta iniciada" };
+    ? { eyebrow: "Let’s improve it together", title: "Feedback", intro: "Tell us which feature, vehicle, diagnosis, or improvement you would like to see. We read this feedback to decide what to build next.", type: "Message type", suggestion: "Improvement suggestion", request: "Request vehicle information", issue: "Report something that does not work", message: "Your message", placeholder: "For example: I would like to view the fuse diagram for…", context: "Request context", fuses: "Fuses", relays: "Relays", manual: "Technical manual", diagnostic: "Guided diagnostic", sending: "Sending...", send: "Send feedback", short: "Tell us a little more; write at least 10 characters.", signIn: "Sign in to send feedback.", failed: "We could not send your message yet. Try again later.", thanks: "Thank you. Your feedback was received for review.", unavailable: "We could not connect to the feedback service.", account: "signed-in account" }
+    : { eyebrow: "Mejoremos juntos", title: "Sugerencias", intro: "Cuéntanos qué función, vehículo, diagnóstico o mejora te gustaría ver. Leemos estas sugerencias para decidir qué construir después.", type: "Tipo de mensaje", suggestion: "Sugerencia de mejora", request: "Pedir información de un vehículo", issue: "Reportar algo que no funciona", message: "Tu mensaje", placeholder: "Por ejemplo: Me gustaría poder consultar el diagrama de fusibles del…", context: "Contexto de la solicitud", fuses: "Fusibles", relays: "Relevadores", manual: "Manual técnico", diagnostic: "Diagnóstico guiado", sending: "Enviando...", send: "Enviar sugerencia", short: "Cuéntanos un poco más; escribe al menos 10 caracteres.", signIn: "Inicia sesión para enviar una sugerencia.", failed: "No pudimos enviar tu mensaje todavía. Inténtalo más tarde.", thanks: "Gracias. Tu sugerencia fue recibida para revisión.", unavailable: "No pudimos conectar con el servicio de sugerencias.", account: "cuenta iniciada" };
   const [category, setCategory] = useState<FeedbackCategory>("suggestion");
   const [message, setMessage] = useState("");
+  const [categoryChanged, setCategoryChanged] = useState(false);
+  const requestContext = getRequestContext(searchParams.get("vehicle"), searchParams.get("topic"));
+  const selectedCategory = requestContext && !categoryChanged ? "content_request" : category;
   const [notice, setNotice] = useState<string>();
   const [error, setError] = useState<string>();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -44,8 +60,10 @@ export default function SugerenciasPage() {
 
       const { error: insertError } = await supabase.from("product_feedback").insert({
         user_id: user.id,
-        category,
-        message: message.trim(),
+        category: selectedCategory,
+        message: requestContext
+          ? `[${copy.context}: ${requestContext.vehicleName} · ${copy[requestContext.topic]}]\n\n${message.trim()}`
+          : message.trim(),
       });
 
       if (insertError) {
@@ -72,12 +90,17 @@ export default function SugerenciasPage() {
           {copy.intro}
         </p>
 
+        {requestContext && <div className="mt-6 rounded-2xl border border-sky-400/30 bg-sky-400/10 p-4 text-sm text-sky-100"><span className="font-bold">{copy.context}:</span> {requestContext.vehicleName} · {copy[requestContext.topic]}</div>}
+
         <form onSubmit={handleSubmit} className="mt-8 space-y-5 rounded-3xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
           <label className="block">
             <span className="text-sm font-semibold">{copy.type}</span>
             <select
-              value={category}
-              onChange={(event) => setCategory(event.target.value as FeedbackCategory)}
+              value={selectedCategory}
+              onChange={(event) => {
+                setCategoryChanged(true);
+                setCategory(event.target.value as FeedbackCategory);
+              }}
               className="mt-2 w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 outline-none focus:border-sky-400"
             >
               <option value="suggestion">{copy.suggestion}</option>
@@ -117,4 +140,8 @@ export default function SugerenciasPage() {
       </section>
     </main>
   );
+}
+
+export default function SugerenciasPage() {
+  return <Suspense fallback={<main className="min-h-screen bg-slate-950" />}><SugerenciasContent /></Suspense>;
 }

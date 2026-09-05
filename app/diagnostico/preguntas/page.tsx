@@ -96,7 +96,7 @@ function PreguntasContent() {
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <button type="button" onClick={() => router.push(`/vehiculo/informacion-tecnica?vehicle=${vehicleId}`)} className="rounded-xl bg-white px-6 py-3 font-semibold text-slate-950">{copy.references}</button>
-            <button type="button" onClick={() => router.push("/sugerencias")} className="rounded-xl border border-slate-700 px-6 py-3 font-semibold">{copy.feedback}</button>
+            <button type="button" onClick={() => router.push(`/sugerencias?vehicle=${vehicleId ?? ""}&topic=diagnostic`)} className="rounded-xl border border-slate-700 px-6 py-3 font-semibold">{copy.feedback}</button>
           </div>
         </section>
       </main>
