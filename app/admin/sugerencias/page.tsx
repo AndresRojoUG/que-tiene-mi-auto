@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import AdminAccessGate from "@/components/AdminAccessGate";
 import BackButton from "@/components/BackButton";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type FeedbackStatus = "new" | "reviewed" | "planned" | "closed";
 type Feedback = {
@@ -21,6 +23,11 @@ const statusLabels: Record<FeedbackStatus, string> = {
 };
 
 export default function AdminSuggestionsPage() {
+  const { locale } = useLanguage();
+  const isEnglish = locale === "en";
+  const copy = isEnglish
+    ? { eyebrow: "Administration", title: "Received feedback", denied: "You do not have permission to view the administration panel.", load: "We could not load the administration panel.", update: "We could not update the feedback item.", status: { new: "New", reviewed: "Reviewed", planned: "Planned", closed: "Closed" } }
+    : { eyebrow: "Administración", title: "Sugerencias recibidas", denied: "No tienes permisos para ver el panel de administración.", load: "No pudimos cargar el panel de administración.", update: "No pudimos actualizar la sugerencia.", status: statusLabels };
   const [items, setItems] = useState<Feedback[]>([]);
   const [message, setMessage] = useState("Cargando sugerencias...");
 
@@ -30,7 +37,7 @@ export default function AdminSuggestionsPage() {
         const supabase = createClient();
         const { data: isAdmin, error: roleError } = await supabase.rpc("is_admin");
         if (roleError || !isAdmin) {
-          setMessage("No tienes permisos para ver el panel de administración.");
+          setMessage(copy.denied);
           return;
         }
 
@@ -42,10 +49,12 @@ export default function AdminSuggestionsPage() {
         setItems((data ?? []) as Feedback[]);
         setMessage("");
       } catch {
-        setMessage("No pudimos cargar el panel de administración.");
+        setMessage(copy.load);
       }
     }
     void load();
+  // Feedback records do not depend on the selected display language.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function updateStatus(id: string, status: FeedbackStatus) {
@@ -54,18 +63,18 @@ export default function AdminSuggestionsPage() {
       .update({ status })
       .eq("id", id);
     if (error) {
-      setMessage("No pudimos actualizar la sugerencia.");
+      setMessage(copy.update);
       return;
     }
     setItems((current) => current.map((item) => item.id === id ? { ...item, status } : item));
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <AdminAccessGate><main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-16">
         <BackButton fallbackHref="/admin" />
-        <p className="text-sm font-medium text-sky-300">Administración</p>
-        <h1 className="mt-2 text-4xl font-black tracking-tight">Sugerencias recibidas</h1>
+        <p className="text-sm font-medium text-sky-300">{copy.eyebrow}</p>
+        <h1 className="mt-2 text-4xl font-black tracking-tight">{copy.title}</h1>
         {message && <p className="mt-5 rounded-xl bg-slate-900 p-4 text-slate-300">{message}</p>}
         <div className="mt-8 space-y-4">
           {items.map((item) => (
@@ -78,16 +87,16 @@ export default function AdminSuggestionsPage() {
                   className="rounded-lg border border-slate-700 bg-slate-950 px-3 py-2 text-sm"
                 >
                   {(Object.keys(statusLabels) as FeedbackStatus[]).map((status) => (
-                    <option key={status} value={status}>{statusLabels[status]}</option>
+                    <option key={status} value={status}>{copy.status[status]}</option>
                   ))}
                 </select>
               </div>
               <p className="mt-4 whitespace-pre-wrap leading-7 text-slate-200">{item.message}</p>
-              <p className="mt-4 text-xs text-slate-500">{new Date(item.created_at).toLocaleString("es-MX")}</p>
+              <p className="mt-4 text-xs text-slate-500">{new Date(item.created_at).toLocaleString(isEnglish ? "en-US" : "es-MX")}</p>
             </article>
           ))}
         </div>
       </section>
-    </main>
+    </main></AdminAccessGate>
   );
 }
