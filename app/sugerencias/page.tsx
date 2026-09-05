@@ -4,6 +4,7 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
+import BackButton from "@/components/BackButton";
 
 type FeedbackCategory = "suggestion" | "issue" | "content_request";
 
@@ -64,6 +65,7 @@ export default function SugerenciasPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-2xl px-5 py-10 sm:px-8 sm:py-16">
+        <BackButton />
         <p className="text-sm font-medium text-sky-300">{copy.eyebrow}</p>
         <h1 className="mt-2 text-4xl font-black tracking-tight">{copy.title}</h1>
         <p className="mt-4 max-w-xl leading-7 text-slate-400">

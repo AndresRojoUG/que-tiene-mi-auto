@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { createClient } from "@/lib/supabase/client";
+import BackButton from "@/components/BackButton";
 
 type FeedbackStatus = "new" | "reviewed" | "planned" | "closed";
 type Feedback = {
@@ -62,6 +63,7 @@ export default function AdminSuggestionsPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-16">
+        <BackButton fallbackHref="/admin" />
         <p className="text-sm font-medium text-sky-300">Administración</p>
         <h1 className="mt-2 text-4xl font-black tracking-tight">Sugerencias recibidas</h1>
         {message && <p className="mt-5 rounded-xl bg-slate-900 p-4 text-slate-300">{message}</p>}

@@ -11,6 +11,7 @@ import {
   subscribeToDiagnosticHistory,
 } from "@/lib/diagnostics/history";
 import { syncDiagnosticHistory } from "@/lib/diagnostics/cloud-history";
+import BackButton from "@/components/BackButton";
 
 function formatHistoryDate(createdAt: string) {
   const date = new Date(createdAt);
@@ -52,6 +53,7 @@ export default function HistorialPage() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-4xl px-5 py-10 sm:px-8 sm:py-16">
+        <BackButton />
         <p className="text-sm font-medium text-slate-400">En este dispositivo</p>
         <h1 className="mt-2 text-4xl font-black tracking-tight">Historial de diagnósticos</h1>
         <p className="mt-4 max-w-2xl leading-7 text-slate-400">

@@ -4,6 +4,7 @@ import { FormEvent, Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useLanguage } from "@/components/LanguageProvider";
+import BackButton from "@/components/BackButton";
 
 type Mode = "sign-in" | "sign-up";
 
@@ -137,6 +138,7 @@ function CuentaContent() {
     return (
       <main className="min-h-screen bg-slate-950 text-white">
         <section className="mx-auto max-w-xl px-5 py-10 sm:px-8 sm:py-16">
+          <BackButton />
           <p className="text-sm font-medium text-sky-300">{copy.account}</p>
           <h1 className="mt-2 text-4xl font-black tracking-tight">{copy.active}</h1>
           <div className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6">
@@ -161,6 +163,7 @@ function CuentaContent() {
   return (
     <main className="min-h-screen bg-slate-950 text-white">
       <section className="mx-auto max-w-xl px-5 py-10 sm:px-8 sm:py-16">
+        <BackButton />
         <p className="text-sm font-medium text-sky-300">{copy.account}</p>
         <h1 className="mt-2 text-4xl font-black tracking-tight">
           {mode === "sign-in" ? copy.signIn : copy.create}
