@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 type Step = {
   title: string;
@@ -16,17 +17,19 @@ export default function DiagnosticGuide({
   title,
   steps,
 }: DiagnosticGuideProps) {
+  const { locale } = useLanguage();
+  const isEnglish = locale === "en";
   const [currentStep, setCurrentStep] = useState(0);
 
   if (steps.length === 0) {
     return (
       <div className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
         <p className="text-sm font-medium text-slate-400">
-          Guía paso a paso
+          {isEnglish ? "Step-by-step guide" : "Guía paso a paso"}
         </p>
         <h2 className="mt-2 text-2xl font-bold">{title}</h2>
         <p className="mt-4 leading-7 text-slate-400">
-          Esta guía todavía no tiene pasos disponibles.
+          {isEnglish ? "This guide has no steps available yet." : "Esta guía todavía no tiene pasos disponibles."}
         </p>
       </div>
     );
@@ -38,7 +41,7 @@ export default function DiagnosticGuide({
   return (
     <div className="mt-8 rounded-3xl border border-slate-800 bg-slate-900 p-6 sm:p-8">
       <p className="text-sm font-medium text-slate-400">
-        Guía paso a paso
+        {isEnglish ? "Step-by-step guide" : "Guía paso a paso"}
       </p>
 
       <h2 className="mt-2 text-2xl font-bold">
@@ -48,7 +51,7 @@ export default function DiagnosticGuide({
       <div className="mt-6">
         <div className="flex items-center justify-between text-sm">
           <span className="text-slate-400">
-            Paso {currentStep + 1} de {steps.length}
+            {isEnglish ? "Step" : "Paso"} {currentStep + 1} {isEnglish ? "of" : "de"} {steps.length}
           </span>
 
           <span className="text-slate-500">
@@ -68,7 +71,7 @@ export default function DiagnosticGuide({
 
       <div className="mt-8 rounded-2xl border border-slate-800 bg-slate-950 p-6">
         <p className="text-sm text-slate-500">
-          Paso {currentStep + 1}
+          {isEnglish ? "Step" : "Paso"} {currentStep + 1}
         </p>
 
         <h3 className="mt-2 text-xl font-semibold">
@@ -87,7 +90,7 @@ export default function DiagnosticGuide({
           onClick={() => setCurrentStep((step) => step - 1)}
           className="flex-1 rounded-xl border border-slate-700 px-5 py-4 font-semibold transition hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-30"
         >
-          ← Atrás
+          ← {isEnglish ? "Back" : "Atrás"}
         </button>
 
         <button
@@ -96,7 +99,7 @@ export default function DiagnosticGuide({
           onClick={() => setCurrentStep((step) => step + 1)}
           className="flex-1 rounded-xl bg-white px-5 py-4 font-semibold text-slate-950 transition hover:bg-slate-200 disabled:cursor-default disabled:opacity-60"
         >
-          {isLastStep ? "Terminado" : "Siguiente →"}
+          {isLastStep ? (isEnglish ? "Finished" : "Terminado") : (isEnglish ? "Next →" : "Siguiente →")}
         </button>
       </div>
     </div>
